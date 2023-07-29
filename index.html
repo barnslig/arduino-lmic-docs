@@ -1,0 +1,3047 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+        <link rel="next" href="howto-add-region/">
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.1, mkdocs-material-9.1.21">
+    
+    
+      
+        <title>README - Arduino LoRaWAN MAC in C (LMIC)</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.eebd395e.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#arduino-lmic-library-mcci-lorawan-lmic-library" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Arduino LoRaWAN MAC in C (LMIC)" class="md-header__button md-logo" aria-label="Arduino LoRaWAN MAC in C (LMIC)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Arduino LoRaWAN MAC in C (LMIC)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              README
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mcci-catena/arduino-lmic" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mcci-catena/arduino-lmic
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Arduino LoRaWAN MAC in C (LMIC)" class="md-nav__button md-logo" aria-label="Arduino LoRaWAN MAC in C (LMIC)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Arduino LoRaWAN MAC in C (LMIC)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mcci-catena/arduino-lmic" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mcci-catena/arduino-lmic
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+          Overview
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          README
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        README
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing" class="md-nav__link">
+    Installing
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    Getting Help
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting Help">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#if-its-not-working" class="md-nav__link">
+    If it's not working
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#if-youve-found-a-bug" class="md-nav__link">
+    If you've found a bug
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-documentation" class="md-nav__link">
+    Additional Documentation
+  </a>
+  
+    <nav class="md-nav" aria-label="Additional Documentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pdfword-documentation" class="md-nav__link">
+    PDF/Word Documentation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-regions" class="md-nav__link">
+    Adding Regions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#known-bugs-and-issues" class="md-nav__link">
+    Known bugs and issues
+  </a>
+  
+    <nav class="md-nav" aria-label="Known bugs and issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#timing-issues" class="md-nav__link">
+    Timing Issues
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#working-with-mcci-murata-based-boards" class="md-nav__link">
+    Working with MCCI Murata-based boards
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-handling-issues" class="md-nav__link">
+    Event-Handling Issues
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#selecting-the-lorawan-version" class="md-nav__link">
+    Selecting the LoRaWAN Version
+  </a>
+  
+    <nav class="md-nav" aria-label="Selecting the LoRaWAN Version">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#selecting-v102" class="md-nav__link">
+    Selecting V1.0.2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-v103" class="md-nav__link">
+    Selecting V1.0.3
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-the-lorawan-region-configuration" class="md-nav__link">
+    Selecting the LoRaWAN Region Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Selecting the LoRaWAN Region Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eu868-as923-in866-kr920" class="md-nav__link">
+    eu868, as923, in866, kr920
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#us915-au915" class="md-nav__link">
+    us915, au915
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-the-target-radio-transceiver" class="md-nav__link">
+    Selecting the target radio transceiver
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#controlling-use-of-interrupts" class="md-nav__link">
+    Controlling use of interrupts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-ping" class="md-nav__link">
+    Disabling PING
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-beacons" class="md-nav__link">
+    Disabling Beacons
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-network-time-support" class="md-nav__link">
+    Enabling Network Time Support
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rarely-changed-variables" class="md-nav__link">
+    Rarely changed variables
+  </a>
+  
+    <nav class="md-nav" aria-label="Rarely changed variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changing-debug-output" class="md-nav__link">
+    Changing debug output
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getting-debug-from-the-rf-library" class="md-nav__link">
+    Getting debug from the RF library
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-the-aes-library" class="md-nav__link">
+    Selecting the AES library
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defining-the-os-tick-frequency" class="md-nav__link">
+    Defining the OS Tick Frequency
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-the-spi-bus-frequency" class="md-nav__link">
+    Setting the SPI-bus frequency
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-handling-of-runtime-assertion-failures" class="md-nav__link">
+    Changing handling of runtime assertion failures
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-join" class="md-nav__link">
+    Disabling JOIN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-class-a-mac-commands" class="md-nav__link">
+    Disabling Class A MAC commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-class-b-mac-commands" class="md-nav__link">
+    Disabling Class B MAC commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-user-events" class="md-nav__link">
+    Disabling user events
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-external-reference-to-onevent" class="md-nav__link">
+    Disabling external reference to onEvent()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-long-messages" class="md-nav__link">
+    Enabling long messages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-lmic-event-logging-calls" class="md-nav__link">
+    Enabling LMIC event logging calls
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#special-purpose" class="md-nav__link">
+    Special purpose
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supported-hardware" class="md-nav__link">
+    Supported hardware
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pre-integrated-boards" class="md-nav__link">
+    Pre-Integrated Boards
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#platformio" class="md-nav__link">
+    PlatformIO
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manual-configuration" class="md-nav__link">
+    Manual configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Manual configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#power" class="md-nav__link">
+    Power
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spi" class="md-nav__link">
+    SPI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dio-pins" class="md-nav__link">
+    DIO pins
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reset" class="md-nav__link">
+    Reset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rxtx" class="md-nav__link">
+    RXTX
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rxtx-polarity" class="md-nav__link">
+    RXTX Polarity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pin-mapping" class="md-nav__link">
+    Pin mapping
+  </a>
+  
+    <nav class="md-nav" aria-label="Pin mapping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#advanced-initialization" class="md-nav__link">
+    Advanced initialization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#halconfiguration_t-methods" class="md-nav__link">
+    HalConfiguration_t methods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lora-nexus-by-ideetron" class="md-nav__link">
+    LoRa Nexus by Ideetron
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-sketches" class="md-nav__link">
+    Example Sketches
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timing" class="md-nav__link">
+    Timing
+  </a>
+  
+    <nav class="md-nav" aria-label="Timing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#controlling-protocol-timing" class="md-nav__link">
+    Controlling protocol timing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmic_setclockerror" class="md-nav__link">
+    LMIC_setClockError()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interrupts-and-arduino-system-timing" class="md-nav__link">
+    Interrupts and Arduino system timing
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#downlink-data-rate" class="md-nav__link">
+    Downlink data rate
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encoding-utilities" class="md-nav__link">
+    Encoding Utilities
+  </a>
+  
+    <nav class="md-nav" aria-label="Encoding Utilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sflt16" class="md-nav__link">
+    sflt16
+  </a>
+  
+    <nav class="md-nav" aria-label="sflt16">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#javascript-decoder" class="md-nav__link">
+    JavaScript decoder
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uflt16" class="md-nav__link">
+    uflt16
+  </a>
+  
+    <nav class="md-nav" aria-label="uflt16">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uflt16-javascript-decoder" class="md-nav__link">
+    uflt16 JavaScript decoder
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sflt12" class="md-nav__link">
+    sflt12
+  </a>
+  
+    <nav class="md-nav" aria-label="sflt12">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sflt12f-javascript-decoder" class="md-nav__link">
+    sflt12f JavaScript decoder
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uflt12" class="md-nav__link">
+    uflt12
+  </a>
+  
+    <nav class="md-nav" aria-label="uflt12">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uflt12f-javascript-decoder" class="md-nav__link">
+    uflt12f JavaScript decoder
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#release-history" class="md-nav__link">
+    Release History
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contributions" class="md-nav__link">
+    Contributions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trademark-acknowledgements" class="md-nav__link">
+    Trademark Acknowledgements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    License
+  </a>
+  
+    <nav class="md-nav" aria-label="License">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#support-open-source-hardware-and-software" class="md-nav__link">
+    Support Open Source Hardware and Software
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="howto-add-region/" class="md-nav__link">
+        Adding Regions
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Technical Specification
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Technical Specification
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="technical-specification/introduction/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Programming Model and API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Programming Model and API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="technical-specification/programming-model-and-api/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="technical-specification/programming-model-and-api/run-time-functions/" class="md-nav__link">
+        Run-time Functions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="technical-specification/programming-model-and-api/application-callbacks/" class="md-nav__link">
+        Application callbacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="technical-specification/programming-model-and-api/the-lmic-struct/" class="md-nav__link">
+        The LMIC Struct
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="technical-specification/programming-model-and-api/api-functions/" class="md-nav__link">
+        API Functions
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="technical-specification/hal/" class="md-nav__link">
+        Hardware Abstraction Layer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="technical-specification/examples/" class="md-nav__link">
+        Examples
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="technical-specification/" class="md-nav__link">
+        Product Information
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="technical-specification/release-history/" class="md-nav__link">
+        Release History
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing" class="md-nav__link">
+    Installing
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    Getting Help
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting Help">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#if-its-not-working" class="md-nav__link">
+    If it's not working
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#if-youve-found-a-bug" class="md-nav__link">
+    If you've found a bug
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-documentation" class="md-nav__link">
+    Additional Documentation
+  </a>
+  
+    <nav class="md-nav" aria-label="Additional Documentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pdfword-documentation" class="md-nav__link">
+    PDF/Word Documentation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-regions" class="md-nav__link">
+    Adding Regions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#known-bugs-and-issues" class="md-nav__link">
+    Known bugs and issues
+  </a>
+  
+    <nav class="md-nav" aria-label="Known bugs and issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#timing-issues" class="md-nav__link">
+    Timing Issues
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#working-with-mcci-murata-based-boards" class="md-nav__link">
+    Working with MCCI Murata-based boards
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-handling-issues" class="md-nav__link">
+    Event-Handling Issues
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#selecting-the-lorawan-version" class="md-nav__link">
+    Selecting the LoRaWAN Version
+  </a>
+  
+    <nav class="md-nav" aria-label="Selecting the LoRaWAN Version">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#selecting-v102" class="md-nav__link">
+    Selecting V1.0.2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-v103" class="md-nav__link">
+    Selecting V1.0.3
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-the-lorawan-region-configuration" class="md-nav__link">
+    Selecting the LoRaWAN Region Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Selecting the LoRaWAN Region Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eu868-as923-in866-kr920" class="md-nav__link">
+    eu868, as923, in866, kr920
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#us915-au915" class="md-nav__link">
+    us915, au915
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-the-target-radio-transceiver" class="md-nav__link">
+    Selecting the target radio transceiver
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#controlling-use-of-interrupts" class="md-nav__link">
+    Controlling use of interrupts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-ping" class="md-nav__link">
+    Disabling PING
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-beacons" class="md-nav__link">
+    Disabling Beacons
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-network-time-support" class="md-nav__link">
+    Enabling Network Time Support
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rarely-changed-variables" class="md-nav__link">
+    Rarely changed variables
+  </a>
+  
+    <nav class="md-nav" aria-label="Rarely changed variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changing-debug-output" class="md-nav__link">
+    Changing debug output
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getting-debug-from-the-rf-library" class="md-nav__link">
+    Getting debug from the RF library
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-the-aes-library" class="md-nav__link">
+    Selecting the AES library
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defining-the-os-tick-frequency" class="md-nav__link">
+    Defining the OS Tick Frequency
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-the-spi-bus-frequency" class="md-nav__link">
+    Setting the SPI-bus frequency
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-handling-of-runtime-assertion-failures" class="md-nav__link">
+    Changing handling of runtime assertion failures
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-join" class="md-nav__link">
+    Disabling JOIN
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-class-a-mac-commands" class="md-nav__link">
+    Disabling Class A MAC commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-class-b-mac-commands" class="md-nav__link">
+    Disabling Class B MAC commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-user-events" class="md-nav__link">
+    Disabling user events
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disabling-external-reference-to-onevent" class="md-nav__link">
+    Disabling external reference to onEvent()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-long-messages" class="md-nav__link">
+    Enabling long messages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-lmic-event-logging-calls" class="md-nav__link">
+    Enabling LMIC event logging calls
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#special-purpose" class="md-nav__link">
+    Special purpose
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supported-hardware" class="md-nav__link">
+    Supported hardware
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pre-integrated-boards" class="md-nav__link">
+    Pre-Integrated Boards
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#platformio" class="md-nav__link">
+    PlatformIO
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manual-configuration" class="md-nav__link">
+    Manual configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Manual configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#power" class="md-nav__link">
+    Power
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spi" class="md-nav__link">
+    SPI
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dio-pins" class="md-nav__link">
+    DIO pins
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reset" class="md-nav__link">
+    Reset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rxtx" class="md-nav__link">
+    RXTX
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rxtx-polarity" class="md-nav__link">
+    RXTX Polarity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pin-mapping" class="md-nav__link">
+    Pin mapping
+  </a>
+  
+    <nav class="md-nav" aria-label="Pin mapping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#advanced-initialization" class="md-nav__link">
+    Advanced initialization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#halconfiguration_t-methods" class="md-nav__link">
+    HalConfiguration_t methods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lora-nexus-by-ideetron" class="md-nav__link">
+    LoRa Nexus by Ideetron
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-sketches" class="md-nav__link">
+    Example Sketches
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timing" class="md-nav__link">
+    Timing
+  </a>
+  
+    <nav class="md-nav" aria-label="Timing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#controlling-protocol-timing" class="md-nav__link">
+    Controlling protocol timing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmic_setclockerror" class="md-nav__link">
+    LMIC_setClockError()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interrupts-and-arduino-system-timing" class="md-nav__link">
+    Interrupts and Arduino system timing
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#downlink-data-rate" class="md-nav__link">
+    Downlink data rate
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encoding-utilities" class="md-nav__link">
+    Encoding Utilities
+  </a>
+  
+    <nav class="md-nav" aria-label="Encoding Utilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sflt16" class="md-nav__link">
+    sflt16
+  </a>
+  
+    <nav class="md-nav" aria-label="sflt16">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#javascript-decoder" class="md-nav__link">
+    JavaScript decoder
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uflt16" class="md-nav__link">
+    uflt16
+  </a>
+  
+    <nav class="md-nav" aria-label="uflt16">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uflt16-javascript-decoder" class="md-nav__link">
+    uflt16 JavaScript decoder
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sflt12" class="md-nav__link">
+    sflt12
+  </a>
+  
+    <nav class="md-nav" aria-label="sflt12">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sflt12f-javascript-decoder" class="md-nav__link">
+    sflt12f JavaScript decoder
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uflt12" class="md-nav__link">
+    uflt12
+  </a>
+  
+    <nav class="md-nav" aria-label="uflt12">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uflt12f-javascript-decoder" class="md-nav__link">
+    uflt12f JavaScript decoder
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#release-history" class="md-nav__link">
+    Release History
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contributions" class="md-nav__link">
+    Contributions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trademark-acknowledgements" class="md-nav__link">
+    Trademark Acknowledgements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    License
+  </a>
+  
+    <nav class="md-nav" aria-label="License">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#support-open-source-hardware-and-software" class="md-nav__link">
+    Support Open Source Hardware and Software
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="arduino-lmic-library-mcci-lorawan-lmic-library">Arduino-LMIC library ("MCCI LoRaWAN LMIC Library")</h1>
+<p><a href="https://github.com/mcci-catena/arduino-lmic/releases/latest"><img alt="GitHub release" src="https://img.shields.io/github/release/mcci-catena/arduino-lmic.svg" /></a> <a href="https://github.com/mcci-catena/arduino-lmic/compare/v4.1.1...master"><img alt="GitHub commits" src="https://img.shields.io/github/commits-since/mcci-catena/arduino-lmic/latest.svg" /></a> <a href="https://github.com/mcci-catena/arduino-lmic/actions"><img alt="Arduino CI" src="https://img.shields.io/github/workflow/status/mcci-catena/arduino-lmic/Arduino%20CI" /></a></p>
+<h2 id="introduction">Introduction</h2>
+<p>This repository contains the IBM LMIC (LoRaWAN-MAC-in-C) library, slightly
+modified to run in the Arduino environment, allowing using the SX1272,
+SX1276 transceivers and compatible modules (such as some HopeRF RFM9x
+modules and the Murata LoRa modules).</p>
+<blockquote>
+<p>Note on names: the library was originally ported to Arduino by Matthijs Kooijman and Thomas Telkamp, and was named Arduino LMIC. Subsequently, MCCI did a lot of work to support other regions, and ultimately took over maintenance. The Arduino IDE doesn't like two libraries with the same name, so we had to come up with a new name. So in the IDE, it will appear as MCCI LoRaWAN LMIC Library; but all us know it by the primary header file, which is <code>&lt;arduino_lmic.h&gt;</code>.</p>
+</blockquote>
+<p>Information about the LoRaWAN protocol is summarized in <a href="doc/LoRaWAN-at-a-glance.pdf">LoRaWAN-at-a-glance</a>. Full information is available from the <a href="https://lora-alliance.org">LoRa Alliance</a>.</p>
+<p>A support forum is available at <a href="https://forum.mcci.io/c/device-software/arduino-lmic/5">forum.mcci.io</a>.</p>
+<p>The base Arduino library mostly exposes the functions defined by LMIC. It makes no
+attempt to wrap them in a higher level API that is more in the Arduino
+style. To find out how to use the library itself, see the examples, or
+see the PDF files in the doc subdirectory.</p>
+<p>A separate library, <a href="https://github.com/mcci-catena/arduino-lorawan">MCCI <code>arduino-lorawan</code></a>, provides a higher level, more Arduino-like wrapper which may be useful.</p>
+<p>The examples in this library (apart from the compliance sketch) are somewhat primitive. A very complete cross-platform Arduino application based on the LMIC has been published by Leonel Lopes Parente (<a href="https://github.com/lnlp"><code>@lnlp</code></a>) as <a href="https://github.com/lnlp/LMIC-node">LMIC-node</a>. That application specifically targets The Things Network.</p>
+<p>Although the wrappers in this library are designed to make the LMIC useful in the Arduino environment, the maintainers have tried to be careful to keep the core LMIC code generally useful. For example, I use this library without modification (but with wrappers) on a RISC-V platform in a non-Arduino environment.</p>
+<h2 id="installing">Installing</h2>
+<p>To install this library:</p>
+<ul>
+<li>install it using the Arduino Library manager ("Sketch" -&gt; "Include
+  Library" -&gt; "Manage Libraries..."), or</li>
+<li>download a zip file from GitHub using the "Download ZIP" button and
+  install it using the IDE ("Sketch" -&gt; "Include Library" -&gt; "Add .ZIP
+  Library..."</li>
+<li>clone this git repository into your sketchbook/libraries folder.</li>
+</ul>
+<p>For more info, see <a href="https://www.arduino.cc/en/Guide/Libraries">https://www.arduino.cc/en/Guide/Libraries</a>.</p>
+<h2 id="getting-help">Getting Help</h2>
+<h3 id="if-its-not-working">If it's not working</h3>
+<p>Ask questions at <a href="https://forum.mcci.io/c/device-software/arduino-lmic/5"><code>forum.mcci.io</code></a>. Wireless is tricky, so don't be afraid to ask. The LMIC has been used successfully in a lot of applications, but it's common to have problems getting it working. To keep the code size down, there are not a lot of debugging features, and the features are not always easy to use.</p>
+<h3 id="if-youve-found-a-bug">If you've found a bug</h3>
+<p>Raise a GitHub issue at <a href="https://github.com/mcci-catena/arduino-lmic/issues/"><code>github.com/mcci-catena/arduino-lmic</code></a>.</p>
+<h2 id="features">Features</h2>
+<p>The LMIC library provides a fairly complete LoRaWAN Class A and Class B
+implementation, supporting the EU-868, US-915, AU-921, AS-923, and IN-866 bands. Only a limited
+number of features was tested using this port on Arduino hardware, so be careful when using any of the untested features.</p>
+<p>The library has only been tested with LoRaWAN 1.0.2/1.03 networks and does not have the separated key structure defined by LoRaWAN 1.1.</p>
+<p>What certainly works:</p>
+<ul>
+<li>Sending packets uplink, taking into account duty cycling.</li>
+<li>Encryption and message integrity checking.</li>
+<li>Custom frequencies and data rate settings.</li>
+<li>Over-the-air activation (OTAA / joining).</li>
+<li>Receiving downlink packets in the RX1 and RX2 windows.</li>
+<li>MAC command processing.</li>
+</ul>
+<p>What has not been tested:</p>
+<ul>
+<li>Class B operation.</li>
+<li>FSK has not been extensively tested. (Testing with the RedwoodComm RWC5020A analyzer in 2019 indicated that FSK downlink is stable but not reliable. This prevents successful completion of LoRaWAN pre-certification in regions that require support for FSK.)</li>
+</ul>
+<p>If you try one of these untested features and it works, be sure to let
+us know (creating a GitHub issue is probably the best way for that).</p>
+<h2 id="additional-documentation">Additional Documentation</h2>
+<h3 id="pdfword-documentation">PDF/Word Documentation</h3>
+<p>The <code>doc</code> directory contains <a href="doc/LMIC-v4.1.0.pdf">LMIC-v4.1.0.pdf</a>, which documents the library APIs and use. It's based on the original IBM documentation, but has been adapted for this version of the library. However, as this library is used for more than Arduino, that document is supplemented by Arduino-specific details in this document.</p>
+<h3 id="adding-regions">Adding Regions</h3>
+<p>There is a general framework for adding support for a new region. <a href="./HOWTO-ADD-REGION.md">HOWTO-ADD-REGION.md</a> has step-by-step instructions for adding a region.</p>
+<h3 id="known-bugs-and-issues">Known bugs and issues</h3>
+<p>See the list of bugs at <a href="https://github.com/mcci-catena/arduino-lmic/issues"><code>mcci-catena/arduino-lmic</code></a>.</p>
+<h4 id="timing-issues">Timing Issues</h4>
+<p>The LoRaWAN technology for class A devices requires devices to meet hard real-time deadlines. The Arduino environment doesn't provide built-in support for this, and this port of the LMIC doesn't really ensure it, either. It is your responsibility, when constructing your application, to ensure that you call <code>os_runloop_once()</code> "often enough".</p>
+<p>How often is often enough?</p>
+<p>It depends on what the LMIC is doing. For Class A devices, when the LMIC is idle, <code>os_runloop_once()</code> need not be called at all. However, during a message transmit, it's critical to ensure that <code>os_runloop_once()</code> is called frequently prior to hard deadlines. The API <code>os_queryTimeCriticalJobs()</code> can be used to check whether there are any deadlines due soon. Before doing work that takes <code>n</code> milliseconds, call <code>os_queryTimeCriticalJobs(ms2osticks(n))</code>, and skip the work if the API indicates that the LMIC needs attention.</p>
+<p>However, in the current implementation, the LMIC is tracking the completion of uplink transmits. This is done by checking for transmit-complete indications, which is done by polling. So you must also continually call <code>os_runloop_once()</code> while waiting for a transmit to be completed. This is an area for future improvement.</p>
+<h4 id="working-with-mcci-murata-based-boards">Working with MCCI Murata-based boards</h4>
+<p>The Board Support Package V2.5.0 for the MCCI Murata-based boards (<a href="https://mcci.io/catena4610">MCCI Catena 4610</a>, <a href="https://mcci.io/catena4612">MCCI Catena 4612</a>, etc.) has a defect in clock calibration that prevents the compliance script from being used without modification. Versions V2.6.0 and later solve this issue.</p>
+<h4 id="event-handling-issues">Event-Handling Issues</h4>
+<p>The LMIC has a simple event notification system. When an interesting event occurs, it calls a user-provided function.</p>
+<p>This function is sometimes called at time critical moments.</p>
+<p>This means that your event function should avoid doing any time-critical work.</p>
+<p>Furthermore, in versions of the LMIC prior to v3.0.99.3, the event function may be called in situations where it's not safe to call the general LMIC APIs. In those older LMIC versions, please be careful to defer all work from your event function to your <code>loop()</code> function. See the compliance example sketch for an elaborate version of how this can be done.</p>
+<h2 id="configuration">Configuration</h2>
+<p>A number of features can be enabled or disabled at compile time.
+This is done by adding the desired settings to the file
+<code>project_config/lmic_project_config.h</code>. The <code>project_config</code>
+directory is the only directory that contains files that you
+should edit to match your project; we organize things this way
+so that your local changes are more clearly separated from
+the distribution files. The Arduino environment doesn't give
+us a better way to do this, unless you change <code>BOARDS.txt</code>.</p>
+<p>Unlike other ports of the LMIC code, in this port, you should not edit <code>src/lmic/config.h</code> to configure this package. The intention is that you'll edit the <code>project_config/lmic_project_config.h</code> (if using the Arduino environment), or change compiler command-line input (if using PlatformIO, make, etc.).</p>
+<p>The following configuration variables are available.</p>
+<h3 id="selecting-the-lorawan-version">Selecting the LoRaWAN Version</h3>
+<p>This library implements V1.0.3 of the LoRaWAN specification. However, it can also be used with V1.0.2. The only significant change when selecting V1.0.2 is that the US accepted power range in MAC commands is 10 dBm to 30 dBm; whereas in V1.0.3 the accepted range 2 dBm to 30 dBm.</p>
+<p>The default LoRaWAN version, if no version is explicitly selected, is V1.0.3.</p>
+<p><code>LMIC_LORAWAN_SPEC_VERSION</code> is defined as an integer reflecting the targeted spec version; it will be set to <code>LMIC_LORAWAN_SPEC_VERSION_1_0_2</code> or <code>LMIC_LORAWAN_SPEC_VERSION_1_0_3</code>. Arithmetic comparisons can be done on these version numbers: and we guarantee <code>LMIC_LORAWAN_SPEC_VERSION_1_0_3 &gt; LMIC_LORAWAN_SPEC_VERSION_1_0_2</code>, but the details of the how the versions are encoded may change, and your code should not rely upon the details.</p>
+<h4 id="selecting-v102">Selecting V1.0.2</h4>
+<p>In <code>project_config/lmic_project_config.h</code>, add:</p>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#define LMIC_LORAWAN_SPEC_VERSION   LMIC_LORAWAN_SPEC_VERSION_1_0_2</span>
+</span></code></pre></div>
+<p>On your compiler command line, add:</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>-D<span class="w"> </span><span class="nv">LMIC_LORAWAN_SPEC_VERSION</span><span class="o">=</span>LMIC_LORAWAN_SPEC_VERSION_1_0_2
+</span></code></pre></div>
+<h4 id="selecting-v103">Selecting V1.0.3</h4>
+<p>In <code>project_config/lmic_project_config.h</code>, add:</p>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#define LMIC_LORAWAN_SPEC_VERSION    LMIC_LORAWAN_SPEC_VERSION_1_0_3</span>
+</span></code></pre></div>
+<p>On your compiler command line, add:</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>-D<span class="w"> </span><span class="nv">LMIC_LORAWAN_SPEC_VERSION</span><span class="o">=</span>LMIC_LORAWAN_SPEC_VERSION_1_0_3
+</span></code></pre></div>
+<p>This is the default.</p>
+<h3 id="selecting-the-lorawan-region-configuration">Selecting the LoRaWAN Region Configuration</h3>
+<p>The library supports the following regions:</p>
+<table>
+<thead>
+<tr>
+<th><code>-D</code> variable</th>
+<th>CFG region name</th>
+<th style="text-align: center;">CFG region value</th>
+<th style="text-align: center;">LoRaWAN Regional Spec 1.0.3 Reference</th>
+<th>Frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-D CFG_eu868</code></td>
+<td><code>LMIC_REGION_eu868</code></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2.2</td>
+<td>EU 863-870 MHz ISM</td>
+</tr>
+<tr>
+<td><code>-D CFG_us915</code></td>
+<td><code>LMIC_REGION_us915</code></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2.3</td>
+<td>US 902-928 MHz ISM</td>
+</tr>
+<tr>
+<td><code>-D CFG_au915</code></td>
+<td><code>LMIC_REGION_au915</code></td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">2.6</td>
+<td>Australia 915-928 MHz ISM</td>
+</tr>
+<tr>
+<td><code>-D CFG_as923</code></td>
+<td><code>LMIC_REGION_as923</code></td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">2.8</td>
+<td>Asia 923 MHz ISM</td>
+</tr>
+<tr>
+<td><code>-D CFG_as923jp</code></td>
+<td><code>LMIC_REGION_as923</code> and <code>LMIC_COUNTRY_CODE_JP</code></td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">2.8</td>
+<td>Asia 923 MHz ISM with Japan listen-before-talk (LBT) rules</td>
+</tr>
+<tr>
+<td><code>-D CFG_kr920</code></td>
+<td><code>LMIC_REGION_kr920</code></td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">2.9</td>
+<td>Korea 920-923 MHz ISM</td>
+</tr>
+<tr>
+<td><code>-D CFG_in866</code></td>
+<td><code>LMIC_REGION_in866</code></td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">2.10</td>
+<td>India 865-867 MHz ISM</td>
+</tr>
+</tbody>
+</table>
+<p>The library requires that the compile environment or the project config file define exactly one of <code>CFG_...</code> variables. As released, <code>project_config/lmic_project_config.h</code> defines <code>CFG_us915</code>. If you build with PlatformIO or other environments, and you do not provide a pointer to the platform config file, <code>src/lmic/config.h</code> will define <code>CFG_eu868</code>.</p>
+<p>MCCI BSPs add menu entries to the Arduino IDE so you can select the target region interactively.</p>
+<p>The library changes configuration pretty substantially according to the region selected, and this affects the symbols in-scope in your sketches and <code>.cpp</code> files. Some of the differences are listed below. This list is not comprehensive, and is subject to change in future major releases.</p>
+<h4 id="eu868-as923-in866-kr920">eu868, as923, in866, kr920</h4>
+<p>If the library is configured for EU868, AS923, or IN866 operation, we make
+the following changes:</p>
+<ul>
+<li>Add the API <code>LMIC_setupBand()</code>.</li>
+<li>Add the constants <code>MAX_CHANNELS</code>, <code>MAX_BANDS</code>, <code>LIMIT_CHANNELS</code>, <code>BAND_MILLI</code>,
+  <code>BAND_CENTI</code>, <code>BAND_DECI</code>, and <code>BAND_AUX</code>.</li>
+</ul>
+<h4 id="us915-au915">us915, au915</h4>
+<p>If the library is configured for US915 operation, we make the following changes:</p>
+<ul>
+<li>Add the APIs <code>LMIC_enableChannel()</code>,
+  <code>LMIC_enableSubBand()</code>, <code>LMIC_disableSubBand()</code>, and <code>LMIC_selectSubBand()</code>.</li>
+<li>Add a number of additional <code>DR_...</code> symbols.</li>
+</ul>
+<h3 id="selecting-the-target-radio-transceiver">Selecting the target radio transceiver</h3>
+<p>You should define one of the following variables. If you don't, the library assumes
+sx1276. There is a runtime check to make sure the actual transceiver matches the library
+configuration.</p>
+<p><code>#define CFG_sx1272_radio 1</code></p>
+<p>Configures the library for use with an sx1272 transceiver.</p>
+<p><code>#define CFG_sx1276_radio 1</code></p>
+<p>Configures the library for use with an sx1276 transceiver.</p>
+<h3 id="controlling-use-of-interrupts">Controlling use of interrupts</h3>
+<p><code>#define LMIC_USE_INTERRUPTS</code></p>
+<p>If defined, configures the library to use interrupts for detecting events from the transceiver. If left undefined, the library will poll for events from the transceiver. See <a href="#timing">Timing</a> for more info. Be aware that interrupts are not tested or supported on many platforms.</p>
+<h3 id="disabling-ping">Disabling PING</h3>
+<p><code>#define DISABLE_PING</code></p>
+<p>If defined, removes all code needed for Class B downlink during ping slots (PING). Removes the APIs <code>LMIC_setPingable()</code> and <code>LMIC_stopPingable()</code>.
+Class A devices don't support PING, so defining <code>DISABLE_PING</code> is often a good idea.</p>
+<p>By default, PING support is included in the library.</p>
+<h3 id="disabling-beacons">Disabling Beacons</h3>
+<p><code>#define DISABLE_BEACONS</code></p>
+<p>If defined, removes all code needed for handling beacons. Removes the APIs <code>LMIC_enableTracking()</code> and <code>LMIC_disableTracking()</code>.</p>
+<p>Enabling beacon handling allows tracking of network time, and is required if you want to enable downlink during ping slots. However, many networks don't support Class B devices. Class A devices don't support tracking beacons, so defining <code>DISABLE_BEACONS</code> might be a good idea.</p>
+<p>By default, beacon support is included in the library.</p>
+<h3 id="enabling-network-time-support">Enabling Network Time Support</h3>
+<p><code>#define LMIC_ENABLE_DeviceTimeReq  number  /* boolean: 0 or non-zero */</code></p>
+<p>Disable or enable support for device network-time requests (LoRaWAN MAC request 0x0D). If zero, support is disabled. If non-zero, support is enabled.</p>
+<p>If disabled, stub routines are provided that will return failure (so you don't need conditional compiles in client code).</p>
+<p>By default, device network-time requests were disabled in versions prior to <code>v4.2.0-pre1</code>. As of v4.2.0-pre1, the default is that device network-time requests are enabled.</p>
+<h3 id="rarely-changed-variables">Rarely changed variables</h3>
+<p>The remaining variables are rarely used, but we list them here for completeness.</p>
+<h4 id="changing-debug-output">Changing debug output</h4>
+<p><code>#define LMIC_PRINTF_TO SerialLikeObject</code></p>
+<p>This variable should be set to the name of a <code>Serial</code>-like object (any subclass of Arduino's <code>Print</code> class), used for printing messages. If this variable is set, any calls to the standard <code>printf</code> function (or more generally all writes to the global <code>stdout</code> file descriptor) will redirected to the specified stream.</p>
+<p>When this is not defined, <code>printf</code> and <code>stdout</code> are untouched and their behavior might vary among boards (and could print to somewhere, but also throw away output or crash). So <em>if</em> you want to use <code>printf</code> or <code>LMIC_DEBUG_LEVEL</code>, make sure to also define this.</p>
+<h4 id="getting-debug-from-the-rf-library">Getting debug from the RF library</h4>
+<p><code>#define LMIC_DEBUG_LEVEL number /* 0, 1, or 2 */</code></p>
+<p>This variable determines the amount of debug output to be produced by the library. The default is <code>0</code>.</p>
+<p>If <code>LMIC_DEBUG_LEVEL</code> is zero, no output is produced. If <code>1</code>, limited output is produced. If <code>2</code>, more extensive output is produced.</p>
+<p>Note that debug output will influence the timing of various parts of the library and could introduce timing problems (especially in the RX window timing), so use it carefully.</p>
+<p>Debug output is generated using the standard <code>printf</code> function, so unless your environment already redirects <code>printf</code> / <code>stdout</code> somewhere, you should also configure <code>LIMC_PRINTF_TO</code>.</p>
+<h4 id="selecting-the-aes-library">Selecting the AES library</h4>
+<p>The library comes with two AES implementations. The original implementation is better on
+ARM processors because it's faster, but it's larger. For smaller AVR8 processors, a
+second library ("IDEETRON") is provided that has a smaller code footprint.
+You may define one of the following variables to choose the AES implementation. If you don't,
+the library uses the IDEETRON version.</p>
+<p><code>#define USE_ORIGINAL_AES</code></p>
+<p>If defined, the original AES implementation is used.</p>
+<p><code>#define USE_IDEETRON_AES</code></p>
+<p>If defined, the IDEETRON AES implementation is used.</p>
+<h4 id="defining-the-os-tick-frequency">Defining the OS Tick Frequency</h4>
+<p><code>#define US_PER_OSTICK_EXPONENT number</code></p>
+<p>This variable should be set to the base-2 logarithm of the number of microseconds per OS tick. The default is 4,
+which indicates that each tick corresponds to 16 microseconds (because 16 == 2^4).</p>
+<h4 id="setting-the-spi-bus-frequency">Setting the SPI-bus frequency</h4>
+<p><code>#define LMIC_SPI_FREQ floatNumber</code></p>
+<p>This variable sets the default frequency for the SPI bus connection to the transceiver. The default is <code>1E6</code>, meaning 1 MHz. However, this can be overridden by the contents of the <code>lmic_pinmap</code> structure, and we recommend that you use that approach rather than editing the <code>project_config/lmic_project_config.h</code> file.</p>
+<h4 id="changing-handling-of-runtime-assertion-failures">Changing handling of runtime assertion failures</h4>
+<p>The variables <code>LMIC_FAILURE_TO</code> and <code>DISABLE_LMIC_FAILURE_TO</code>
+control the handling of runtime assertion failures. By default, assertion messages are displayed using
+the <code>Serial</code> object. You can define LMIC_FAILURE_TO to be the name of some other <code>Print</code>-like object. You can
+also define <code>DISABLE_LMIC_FAILURE_TO</code> to any value, in which case assert failures will silently halt execution.</p>
+<h4 id="disabling-join">Disabling JOIN</h4>
+<p><code>#define DISABLE_JOIN</code></p>
+<p>If defined, removes code needed for OTAA activation. Removes the APIs <code>LMIC_startJoining()</code> and <code>LMIC_tryRejoin()</code>.</p>
+<h4 id="disabling-class-a-mac-commands">Disabling Class A MAC commands</h4>
+<p><code>DISABLE_MCMD_DutyCycleReq</code>, <code>DISABLE_MCMD_RXParamSetupReq</code>, <code>DISABLE_MCMD_RXTimingSetupReq</code>, <code>DISABLE_MCMD_NewChannelReq</code>, and <code>DISABLE_MCMD_DlChannelReq</code> respectively disable code for various Class A MAC commands.</p>
+<h4 id="disabling-class-b-mac-commands">Disabling Class B MAC commands</h4>
+<p><code>DISABLE_MCMD_PingSlotChannelReq</code> disables the PING_SET MAC commands. It's implied by <code>DISABLE_PING</code>.</p>
+<p><code>ENABLE_MCMD_BeaconTimingAns</code> enables the next-beacon start command. It's disabled by default, and overridden (if enabled) by <code>DISABLE_BEACON</code>. (This command is deprecated.)</p>
+<h4 id="disabling-user-events">Disabling user events</h4>
+<p>Code to handle registered callbacks for transmit, receive, and events can be suppressed by setting <code>LMIC_ENABLE_user_events</code> to zero. This C preprocessor macro is always defined as a post-condition of <code>#include "config.h"</code>; if non-zero, user events are supported, if zero, user events are not-supported. The default is to support user events.</p>
+<h4 id="disabling-external-reference-to-onevent">Disabling external reference to <code>onEvent()</code></h4>
+<p>In V3 of the LMIC, you do not need to define a function named <code>onEvent</code>. The LMIC will notice that there's no such function, and will suppress the call. However, be cautious -- in a large software package, <code>onEvent()</code> may be defined for some other purpose. The LMIC has no way of knowing that this is not the LMIC's <code>onEvent</code>, so it will call the function, and this may cause problems.</p>
+<p>All reference to <code>onEvent()</code> can be suppressed by setting <code>LMIC_ENABLE_onEvent</code> to 0. This C preprocessor macro is always defined as a post-condition of <code>#include "config.h"</code>; if non-zero, a weak reference to <code>onEvent()</code> will be used; if zero, the user <code>onEvent()</code> function is not supported, and the client must register an event handler explicitly. See the PDF documentation for details on <code>LMIC_registerEventCb()</code>.</p>
+<h4 id="enabling-long-messages">Enabling long messages</h4>
+<p>By default, LMIC allows messages up to 255 bytes, as defined in the LoRaWAN standard and required by compliance testing. To save RAM for simple devices, this can be limited using the <code>LMIC_MAX_FRAME_LENGTH</code> macro. This macro defines the length of the full frame, the maximum payload size is a bit smaller (and can be read from the <code>MAX_LEN_PAYLOAD</code> constant).</p>
+<p>This value controls both the TX and RX buffers, so reducing it by 1 saves 2 bytes of RAM. The value should be not be set too small, since that can prevent properly receiving network downlinks (e.g. join accepts or MAC commands). Using <code>#define LMIC_MAX_FRAME_LENGTH 64</code> is common and should be big enough for most operation, while saving 384 bytes of RAM.</p>
+<p>Originally, this was configured using the <code>LMIC_ENABLE_long_messages</code> macro, which is still supported for compatibility. Setting <code>LMIC_ENABLE_long_messages</code> to 0 is equivalent to setting <code>LMIC_MAX_FRAME_LENGTH</code> to 64.</p>
+<h4 id="enabling-lmic-event-logging-calls">Enabling LMIC event logging calls</h4>
+<p>When debugging the LMIC, debug prints change timing, and can make things not work at all. The LMIC has embedded optional calls to capture debug information that can be printed out later, when the LMIC is not active. Logging is enabled by setting <code>LMIC_ENABLE_event_logging</code> to 1. The default is not to log. This C preprocessor macro is always defined as a post-condition of <code>#include "config.h"</code>.</p>
+<p>The compliance test script includes a suitable logging implementation; the other example scripts do not.</p>
+<h4 id="special-purpose">Special purpose</h4>
+<p><code>#define DISABLE_INVERT_IQ_ON_RX</code> disables the inverted Q-I polarity on RX. <strong>Use of this variable is deprecated, see issue <a href="https://github.com/mcci-catena/arduino-lmic/issues/250">#250</a>.</strong> Rather than defining this, set the value of <code>LMIC.noRXIQinversion</code>. If set non-zero, receive will be non-inverted. End-devices will be able to receive messages from each other, but will not be able to hear the gateway (other than Class B beacons)aa. If set zero, (the default), end devices will only be able to hear gateways, not each other.</p>
+<h2 id="supported-hardware">Supported hardware</h2>
+<p>This library is intended to be used with plain LoRa transceivers,
+connecting to them using SPI. In particular, the SX1272 and SX1276
+families are supported (which should include SX1273, SX1277, SX1278 and
+SX1279 which only differ in the available frequencies, bandwidths and
+spreading factors). It has been tested with both SX1272 and SX1276
+chips, using the Semtech SX1272 evaluation board and the HopeRF RFM92
+and RFM95 boards (which supposedly contain an SX1272 and SX1276 chip
+respectively).</p>
+<p>This library contains a full LoRaWAN stack and is intended to drive
+these Transceivers directly. It is <em>not</em> intended to be used with
+full-stack devices like the Microchip RN2483 and the Embit LR1272E.
+These contain a transceiver and microcontroller that implements the
+LoRaWAN stack and exposes a high-level serial interface instead of the
+low-level SPI transceiver interface.</p>
+<p>This library is intended to be used inside the Arduino environment. It
+should be architecture-independent. Users have tested this on AVR, ARM, Xtensa-based, and RISC-V based system.</p>
+<p>This library can be quite heavy on small systems, especially if the fairly small ATmega
+328p (such as in the Arduino Uno) is used. In the default configuration,
+the available 32K flash space is nearly filled up (this includes some
+debug output overhead, though). By disabling some features in <code>project_config/lmic_project_config.h</code>
+(like beacon tracking and ping slots, which are not needed for Class A devices),
+some space can be freed up.</p>
+<h2 id="pre-integrated-boards">Pre-Integrated Boards</h2>
+<p>There are two ways of using this library, either with pre-integrated boards or with manually configured boards.</p>
+<p>The following boards are pre-integrated.</p>
+<ul>
+<li>Adafruit <a href="https://www.adafruit.com/products/3078">Feather 32u4 LoRa 900 MHz</a> (SX1276)</li>
+<li>Adafruit <a href="https://www.adafruit.com/products/3178">Feather M0 LoRa 900 MHz</a> (SX1276)</li>
+<li>MCCI Catena 4410, 4420, <a href="https://store.mcci.com/collections/lorawan-iot-and-the-things-network/products/catena-4450-lorawan-iot-device">4450</a>, <a href="https://store.mcci.com/collections/lorawan-iot-and-the-things-network/products/catena-4460-sensor-wing-w-bme680">4460</a> and <a href="https://store.mcci.com/collections/lorawan-iot-and-the-things-network/products/mcci-catena-4470-modbus-node-for-lorawan-technology">4470</a> boards (based on Adafruit Feather boards plus wings) (SX1276)</li>
+<li>MCCI Catena 4551, <a href="https://store.mcci.com/collections/lorawan-iot-and-the-things-network/products/mcci-catena-4610-integrated-node-for-lorawan-technology">4610</a>, 4611, <a href="https://store.mcci.com/collections/lorawan-iot-and-the-things-network/products/catena-4612-integrated-lorawan-node">4612</a>, 4617, <a href="https://mcci.com/lorawan/products/catena-4618/">4618</a>, 4630, <a href="https://store.mcci.com/collections/lorawan-iot-and-the-things-network/products/catena-4801">4801</a> and 4802<a href="https://store.mcci.com/collections/lorawan-iot-and-the-things-network/products/catena-4802">12</a> boards (based on the Murata CMWX1ZZABZ-078 module) (SX1276)</li>
+<li><a href="https://makeradvisor.com/tools/ttgo-lora32-sx1276-esp32-oled/">TTGo LoRa32 V1</a> (based on the ESP32)</li>
+<li><a href="https://heltec.org/project/wifi-lora-32/">Heltec WiFi LoRa 32 V2</a> (based on the ESP32)</li>
+</ul>
+<blockquote>
+<p>To help you know if you have to worry, we'll call such boards "pre-integrated" and prefix each section with suitable guidance.</p>
+</blockquote>
+<h2 id="platformio">PlatformIO</h2>
+<p>For use with PlatformIO, the <code>lmic_project_config.h</code> has to be disabled with the flag <code>ARDUINO_LMIC_PROJECT_CONFIG_H_SUPPRESS</code>.
+The settings are defined in PlatformIO by <code>build_flags</code>.</p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="na">lib_deps</span><span class="w"> </span><span class="o">=</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="na">MCCI LoRaWAN LMIC library</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="na">build_flags</span><span class="w"> </span><span class="o">=</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="na">-D ARDUINO_LMIC_PROJECT_CONFIG_H_SUPPRESS</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="na">-D CFG_eu868</span><span class="o">=</span><span class="s">1</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="na">-D CFG_sx1276_radio</span><span class="o">=</span><span class="s">1</span>
+</span></code></pre></div>
+<h2 id="manual-configuration">Manual configuration</h2>
+<p>If your desired transceiver board is not pre-integrated, you need to provide the library with the required information.</p>
+<p>You may need to wire up your transceiver. The exact
+connections are a bit dependent on the transceiver board and Arduino
+used, so this section tries to explain what each connection is for and
+in what cases it is (not) required.</p>
+<p>Note that the SX127x module runs at 3.3V and likely does not like 5V on
+its pins (though the datasheet is not say anything about this, and my
+transceiver did not obviously break after accidentally using 5V I/O for
+a few hours). To be safe, make sure to use a level shifter, or an
+Arduino running at 3.3V. The Semtech evaluation board has 100 ohm resistors in
+series with all data lines that might prevent damage, but I would not
+count on that.</p>
+<h3 id="power">Power</h3>
+<blockquote>
+<p>If you're using a <a href="#pre-integrated-boards">pre-integrated board</a>, you can skip this section.</p>
+</blockquote>
+<p>The SX127x transceivers need a supply voltage between 1.8V and 3.9V.
+Using a 3.3V supply is typical. Some modules have a single power pin
+(like the HopeRF modules, labeled 3.3V) but others expose multiple power
+pins for different parts (like the Semtech evaluation board that has
+<code>VDD_RF</code>, <code>VDD_ANA</code> and <code>VDD_FEM</code>), which can all be connected together.
+Any <em>GND</em> pins need to be connected to the Arduino <em>GND</em> pin(s).</p>
+<h3 id="spi">SPI</h3>
+<blockquote>
+<p>If you're using a <a href="#pre-integrated-boards">pre-integrated board</a>, you can skip this section.</p>
+</blockquote>
+<p>The primary way of communicating with the transceiver is through SPI
+(Serial Peripheral Interface). This uses four pins: MOSI, MISO, SCK and
+SS. The former three need to be directly connected: so MOSI to MOSI,
+MISO to MISO, SCK to SCK. Where these pins are located on your Arduino
+varies, see for example the "Connections" section of the <a href="SPI">Arduino SPI
+documentation</a>.</p>
+<p>The SS (slave select) connection is a bit more flexible. On the SPI
+slave side (the transceiver), this must be connect to the pin
+(typically) labeled <em>NSS</em>. On the SPI master (Arduino) side, this pin
+can connect to any I/O pin. Most Arduinos also have a pin labeled "SS",
+but this is only relevant when the Arduino works as an SPI slave, which
+is not the case here. Whatever pin you pick, you need to tell the
+library what pin you used through the pin mapping (see <a href="#pin-mapping">below</a>).</p>
+<h3 id="dio-pins">DIO pins</h3>
+<blockquote>
+<p>If you're using a <a href="#pre-integrated-boards">pre-integrated board</a>, you can skip this section.</p>
+</blockquote>
+<p>The DIO (digital I/O) pins on the SX127x can be configured
+for various functions. The LMIC library uses them to get instant status
+information from the transceiver. For example, when a LoRa transmission
+starts, the DIO0 pin is configured as a TxDone output. When the
+transmission is complete, the DIO0 pin is made high by the transceiver,
+which can be detected by the LMIC library.</p>
+<p>The LMIC library needs only access to DIO0, DIO1 and DIO2, the other
+DIOx pins can be left disconnected. On the Arduino side, they can
+connect to any I/O pin. If interrupts are used, the accuracy of timing
+will be improved, particularly the rest of your <code>loop()</code> function has
+lengthy calculations; but in that case, the enabled DIO pins must all
+support rising-edge interrupts. See the <a href="#timing">Timing</a> section below.</p>
+<p>In LoRa mode the DIO pins are used as follows:</p>
+<ul>
+<li>DIO0: TxDone and RxDone</li>
+<li>DIO1: RxTimeout</li>
+</ul>
+<p>In FSK mode they are used as follows::</p>
+<ul>
+<li>DIO0: PayloadReady and PacketSent</li>
+<li>DIO2: TimeOut</li>
+</ul>
+<p>Both modes need only 2 pins, but the transceiver does not allow mapping
+them in such a way that all needed interrupts map to the same 2 pins.
+So, if both LoRa and FSK modes are used, all three pins must be
+connected.</p>
+<p>The pins used on the Arduino side should be configured in the pin
+mapping in your sketch, by setting the values of <code>lmic_pinmap::dio[0]</code>, <code>[1]</code>, and <code>[2]</code> (see <a href="#pin-mapping">below</a>).</p>
+<h3 id="reset">Reset</h3>
+<blockquote>
+<p>If you're using a <a href="#pre-integrated-boards">pre-integrated board</a>, you can skip this section.</p>
+</blockquote>
+<p>The transceiver has a reset pin that can be used to explicitly reset
+it. The LMIC library uses this to ensure the chip is in a consistent
+state at startup. In practice, this pin can be left disconnected, since
+the transceiver will already be in a sane state on power-on, but
+connecting it might prevent problems in some cases.</p>
+<p>On the Arduino side, any I/O pin can be used. The pin number used must
+be configured in the pin mapping <code>lmic_pinmap::rst</code> field (see <a href="#pin-mapping">below</a>).</p>
+<h3 id="rxtx">RXTX</h3>
+<blockquote>
+<p>If you're using a <a href="#pre-integrated-boards">pre-integrated board</a>, you can skip this section.</p>
+</blockquote>
+<p>The transceiver contains two separate antenna connections: One for RX
+and one for TX. A typical transceiver board contains an antenna switch
+chip, that allows switching a single antenna between these RX and TX
+connections. Such a antenna switcher can typically be told what
+position it should be through an input pin, often labeled <em>RXTX</em>.</p>
+<p>The easiest way to control the antenna switch is to use the <em>RXTX</em> pin
+on the SX127x transceiver. This pin is automatically set high during TX
+and low during RX. For example, the HopeRF boards seem to have this
+connection in place, so they do not expose any <em>RXTX</em> pins and the pin
+can be marked as unused in the pin mapping.</p>
+<p>Some boards do expose the antenna switcher pin, and sometimes also the
+SX127x <em>RXTX</em> pin. For example, the SX1272 evaluation board calls the
+former <em>FEM_CTX</em> and the latter <em>RXTX</em>. Again, simply connecting these
+together with a jumper wire is the easiest solution.</p>
+<p>Alternatively, or if the SX127x <em>RXTX</em> pin is not available, LMIC can be
+configured to control the antenna switch. Connect the antenna switch
+control pin (e.g. <em>FEM_CTX</em> on the Semtech evaluation board) to any I/O
+pin on the Arduino side, and configure the pin used in the pin map (see
+<a href="#pin-mapping">below</a>).</p>
+<p>The configuration entry <code>lmic_pinmap::rxtx</code> configures the pin to be used for the <em>RXTX</em> control function, in terms of the Arduino <code>wire.h</code> digital pin number. If set to <code>LMIC_UNUSED_PIN</code>, then the library assumes that software does not need to control the antenna switch.</p>
+<h3 id="rxtx-polarity">RXTX Polarity</h3>
+<blockquote>
+<p>If you're using a <a href="#pre-integrated-boards">pre-integrated board</a>, you can skip this section.</p>
+</blockquote>
+<p>If an external switch is used, you also must specify the polarity. Some modules want <em>RXTX</em> to be high for transmit, low for receive; Others want it to be low for transmit, high for receive. The Murata module, for example, requires that <em>RXTX</em> be <em>high</em> for receive, <em>low</em> for transmit.</p>
+<p>The configuration entry <code>lmic_pinmap::rxtx_rx_active</code> should be set to the state to be written to the <em>RXTX</em> pin to make the receiver active. The opposite state is written to make the transmitter active. If <code>lmic_pinmap::rxtx</code> is <code>LMIC_UNUSED_PIN</code>, then the value of <code>lmic_pinmap::rxtx_rx_active</code> is ignored.</p>
+<h3 id="pin-mapping">Pin mapping</h3>
+<blockquote>
+<p>If you're using a <a href="#pre-integrated-boards">pre-integrated board</a>, you can skip this section.</p>
+</blockquote>
+<p>Refer to the documentation on your board for the required settings.</p>
+<p>Remember, for pre-integrated boards, you don't worry about this.</p>
+<p>We have details for the following manually-configured boards here:</p>
+<ul>
+<li><a href="#lora-nexus-by-ideetron">LoRa Nexus by Ideetron</a></li>
+</ul>
+<p>If your board is not configured, you need at least to provide your own <code>lmic_pinmap</code>. As described above, a variety of configurations are possible. To tell the LMIC library how your board is configured, you must declare a variable containing a pin mapping struct in your sketch file. If you call <code>os_init()</code> to initialize the LMIC, you must name this structure <code>lmic_pins</code>. If you call <code>os_init_ex()</code>, you may name the structure what you like, but you pass a pointer as the parameter to <code>os_init_ex()</code>.</p>
+<p>Here's an example of a simple initialization:</p>
+<div class="language-c++ highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="w">  </span><span class="n">lmic_pinmap</span><span class="w"> </span><span class="n">lmic_pins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="p">.</span><span class="n">nss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="p">.</span><span class="n">rxtx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LMIC_UNUSED_PIN</span><span class="p">,</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="p">.</span><span class="n">rst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="p">.</span><span class="n">dio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">},</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="c1">// optional: set polarity of rxtx pin.</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="p">.</span><span class="n">rxtx_rx_active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="c1">// optional: set RSSI cal for listen-before-talk</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="c1">// this value is in dB, and is added to RSSI</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="c1">// measured prior to decision.</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="c1">// Must include noise guardband! Ignored in US,</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">    </span><span class="c1">// EU, IN, other markets where LBT is not required.</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">    </span><span class="p">.</span><span class="n">rssi_cal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">    </span><span class="c1">// optional: override LMIC_SPI_FREQ if non-zero</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">    </span><span class="p">.</span><span class="n">spi_freq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">  </span><span class="p">};</span>
+</span></code></pre></div>
+<p>The names refer to the pins on the transceiver side, the numbers refer
+to the Arduino pin numbers (to use the analog pins, use constants like
+<code>A0</code>). For the DIO pins, the three numbers refer to DIO0, DIO1 and DIO2
+respectively. Any pins that are not needed should be specified as
+<code>LMIC_UNUSED_PIN</code>. The NSS and dio0 pins are required. The others can
+potentially left out (depending on the environments and requirements,
+see the notes above for when a pin can or cannot be left out).</p>
+<h4 id="advanced-initialization">Advanced initialization</h4>
+<p>In some boards require much more advanced management. The LMIC has a very flexible framework to support this, but it requires you to do some C++ work.</p>
+<ol>
+<li>
+<p>You must define a new class derived from <code>Arduino_LMIC::HalConfiguration_t</code>. (We'll call this <code>cMyHalConfiguration_t</code>).</p>
+</li>
+<li>
+<p>This class <em>may</em> define overrides for several methods (discussed below).</p>
+</li>
+<li>
+<p>You must create an instance of your class, e.g.</p>
+</li>
+</ol>
+<div class="language-c++ highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">cMyHalConfiguration_t</span><span class="w"> </span><span class="n">myHalConfigInstance</span><span class="p">;</span>
+</span></code></pre></div>
+<ol>
+<li>You add another entry in your <code>lmic_pinmap</code>, <code>pConfig = &amp;myHalConfigInstance</code>, to link your pin-map to your object.</li>
+</ol>
+<p>The full example looks like this:</p>
+<div class="language-c++ highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">cMyHalConfiguration_t</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Arduino_LMIC</span><span class="o">::</span><span class="n">HalConfiguration_t</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="p">{</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">public</span><span class="o">:</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="c1">// ...</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="c1">// put your method function override declarations here.</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span><span class="c1">// this example uses RFO at 10 dBm or less, PA_BOOST up to 17 dBm,</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">  </span><span class="c1">// or the high-power mode above 17 dBm. In other words, it lets the</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">  </span><span class="c1">// LMIC-determined policy determine what&#39;s to be done.</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">  </span><span class="k">virtual</span><span class="w"> </span><span class="n">TxPowerPolicy_t</span><span class="w"> </span><span class="n">getTxPowerPolicy</span><span class="p">(</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">    </span><span class="n">TxPowerPolicy_t</span><span class="w"> </span><span class="n">policy</span><span class="p">,</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">    </span><span class="kt">int8_t</span><span class="w"> </span><span class="n">requestedPower</span><span class="p">,</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">frequency</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">override</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">policy</span><span class="p">;</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">  </span><span class="p">};</span>
+</span></code></pre></div>
+<h4 id="halconfiguration_t-methods">HalConfiguration_t methods</h4>
+<ul>
+<li>
+<p><code>ostime_t setModuleActive(bool state)</code> is called by the LMIC to make the module active or to deactivate it (the value of <code>state</code> is true to activate). The implementation must turn power to the module on and otherwise prepare for it to go to work, and must return the number of OS ticks to wait before starting to use the radio.</p>
+</li>
+<li>
+<p><code>void begin(void)</code> is called during initialization, and is your code's chance to do any early setup.</p>
+</li>
+<li>
+<p><code>void end(void)</code> is (to be) called during late shutdown. (Late shutdown is not implemented yet; but we wanted to add the API for consistency.)</p>
+</li>
+<li>
+<p><code>bool queryUsingTcxo(void)</code> shall return <code>true</code> if the module uses a TCXO; <code>false</code> otherwise.</p>
+</li>
+<li>
+<p><code>TxPowerPolicy_t getTxPowerPolicy(TxPowerPolicy_t policy, int8_t requestedPower, uint32_t frequency)</code> allows you to override the LMIC's selection of transmit power. If not provided, the default method forces the LMIC to use PA_BOOST mode. (We chose to do this because we found empirically that the Hope RF module doesn't support RFO, and because legacy LMIC code never used anything except PA_BOOST mode.)</p>
+</li>
+</ul>
+<p>Caution: the LMIC has no way of knowing whether the mode you return makes sense. Use of 20 dBm mode without limiting duty cycle can over-stress your module. The LMIC currently does not have any code to duty-cycle US transmissions at 20 dBm. If properly limiting transmissions to 400 milliseconds, a 1% duty-cycle means at most one message every 40 seconds. This shouldn't be a problem in practice, but buggy upper level software still might do things more rapidly.</p>
+<!-- there are links to the following section, so be careful when renaming -->
+
+<h4 id="lora-nexus-by-ideetron">LoRa Nexus by Ideetron</h4>
+<p>This board uses the following pin mapping:</p>
+<div class="language-c++ highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">lmic_pinmap</span><span class="w"> </span><span class="n">lmic_pins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">      </span><span class="p">.</span><span class="n">nss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">      </span><span class="p">.</span><span class="n">rxtx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LMIC_UNUSED_PIN</span><span class="p">,</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">      </span><span class="p">.</span><span class="n">rst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LMIC_UNUSED_PIN</span><span class="p">,</span><span class="w"> </span><span class="c1">// hardwired to AtMega RESET</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">      </span><span class="p">.</span><span class="n">dio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">},</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="p">};</span>
+</span></code></pre></div>
+<h2 id="example-sketches">Example Sketches</h2>
+<p>This library provides several examples.</p>
+<ul>
+<li>
+<p><a href="examples/ttn-otaa/ttn-otaa.ino"><code>ttn-otaa.ino</code></a> shows a basic transmission of a "Hello, world!" message
+  using the LoRaWAN protocol. It contains some frequency settings and
+  encryption keys intended for use with The Things Network, but these
+  also correspond to the default settings of most gateways, so it
+  should work with other networks and gateways as well.
+  The example uses over-the-air activation (OTAA) to first join the network to establish a
+  session and security keys. This was tested with The Things Network,
+  but should also work (perhaps with some changes) for other networks.
+  OTAA is the preferred way to work with production LoRaWAN networks.</p>
+</li>
+<li>
+<p><a href="examples/ttn-otaa-feather-us915/ttn-otaa-feather-us915.ino"><code>ttn-otaa-feather-us915.ino</code></a> is a version of <code>ttn-otaa.ino</code> that has
+  been configured for use with the Feather M0 LoRa, in the US915 region,
+  with The Things Network. Remember that you may also have to change <code>config.h</code>
+  from defaults. This sketch also works with the MCCI Catena family of products
+  as well as with the Feather 32u4 LoRa.</p>
+</li>
+<li>
+<p><a href="examples/ttn-otaa-halconfig-us915/ttn-otaa-halconfig-us915.ino"><code>ttn-otaa-halconfig-us915.ino</code></a> is a version of <code>ttn-otaa.ino</code> that uses the LMIC automatic configuration system, in the US915 region,
+  with The Things Network. Remember that you may also have to change <code>config.h</code>
+  from defaults. This sketch works with all the boards listed above under <a href="#pre-integrated-boards">Pre-Integrated Boards</a>.</p>
+</li>
+<li>
+<p><a href="examples/ttn-otaa-feather-us915-dht22/ttn-otaa-feather-us915-dht22.ino"><code>ttn-otaa-feather-us915-dht22.ino</code></a>
+  is a further refinement of <code>ttn-otaa-feather-us915.ino</code>. It measures and
+  transmits temperature and relative humidity using a DHT22 sensor. It's only
+  been tested with Feather M0-family products.</p>
+</li>
+<li>
+<p><a href="examples/raw/raw.ino"><code>raw.ino</code></a> shows how to access the radio on a somewhat low level,
+  and allows to send raw (non-LoRaWAN) packets between nodes directly.
+  This is useful to verify basic connectivity, and when no gateway is
+  available, but this example also bypasses duty cycle checks, so be
+  careful when changing the settings.</p>
+</li>
+<li>
+<p><a href="examples/raw-feather/raw-feather.ino"><code>raw-feather.ino</code></a> is a version of <code>raw.ino</code> that is completely configured
+  for the Adafruit <a href="https://www.adafruit.com/product/3178">Feather M0 LoRa</a>, and for a variety
+  of other MCCI products.</p>
+</li>
+<li>
+<p><a href="examples/raw-halconfig/raw-halconfig.ino"><code>raw-halconfig.ino</code></a> is like the other <code>raw</code> examples, but is most general. It's configured according to the LMIC's auto-configuration mechanism, and adapts according to the selected region.</p>
+</li>
+<li>
+<p><a href="examples/ttn-abp/ttn-abp.ino"><code>ttn-abp.ino</code></a> shows a basic transmission of a "Hello, world!" message
+  using the LoRaWAN protocol. This example
+  uses activation-by-personalization (ABP, preconfiguring a device
+  address and encryption keys), and does not employ over-the-air
+  activation.</p>
+</li>
+</ul>
+<p>ABP should not be used if you have access to a production gateway and network; it's
+  not compliant with LoRaWAN standards, it's not FCC compliant, and it's uses spectrum
+  in a way that's unfair to other users. However, it's often the most economical way to
+  get your feet wet with this technology. It's possible to do ABP compliantly with the LMIC
+  framework, but you need to have FRAM storage and a framework that saves uplink and
+  downlink counts across reboots and resets. See, for example,
+  <a href="https://github.com/mcci-catena/Catena-Arduino-Platform">Catena-Arduino-Platform</a>.</p>
+<ul>
+<li><a href="examples/ttn-abp-feather-us915-dht22/ttn-abp-feather-us915-dht22.ino"><code>ttn-abp-feather-us915-dht22.ino</code></a>
+  refines <code>ttn-abp.ino</code> by configuring for use with the Feather M0 LoRa in the US915 region,
+  with a single-channel gateway on The Things Network; it measures and transmits temperature and relative
+  humidity using a DHT22 sensor. It's only been tested with Feather M0-family products.</li>
+</ul>
+<p>ABP should not be used if you have access to a production gateway and network; it's
+  not compliant with LoRaWAN standards, it's not FCC compliant, and it's uses spectrum
+  in a way that's unfair to other users. However, it's often the most economical way to
+  get your feet wet with this technology. It's possible to do ABP compliantly with the LMIC
+  framework, but you need to have FRAM storage and a framework that saves uplink and
+  downlink counts across reboots and resets. See, for example,
+  <a href="https://github.com/mcci-catena/Catena-Arduino-Platform">Catena-Arduino-Platform</a>.</p>
+<ul>
+<li>
+<p><a href="examples/header_test/header_test.ino"><code>header_test.ino</code></a> just tests the header files; it's used for regression testing.</p>
+</li>
+<li>
+<p><a href="examples/compliance-otaa-halconfig/compliance-otaa-halconfig.ino"><code>compliance-otaa-halconfig.ino</code></a> is a test sketch that is used for LoRaWAN compliance testing.</p>
+</li>
+<li>
+<p><a href="examples/helium-otaa/helium-otaa.ino"><code>helium-otaa.ino</code></a> is a complete example for using the LMIC on the Helium network. It's very similar to the OTAA examples, but sets up the prejoin parameters properly for the initial deployment of Helium LoRaWAN support.</p>
+</li>
+<li>
+<p><a href="examples/ttn-otaa-network-time/ttn-otaa-network-time.ino"><code>ttn-otaa-network-time.ino</code></a> demonstrates use of the network time request. Network time requests are not supported by The Things Network as of the time of writing.</p>
+</li>
+</ul>
+<h2 id="timing">Timing</h2>
+<p>The library is
+responsible for keeping track of time of certain network events, and scheduling
+other events relative to those events. For Class A uplink transmissions, the library must note
+when a packet finishes transmitting, so it can open up the RX1 and RX2
+receive windows at a fixed time after the end of transmission. The library does this
+by watching for rising edges on the DIO0 output of the SX127x, and noting the time.</p>
+<p>The library observes and processes rising edges on the pins as part of <code>os_runloop()</code> processing.
+This can be configured in one of two ways (see
+<a href="#controlling-use-of-interrupts">Controlling use of interrupts</a>). See <a href="#interrupts-and-arduino-system-timing">Interrupts and Arduino system timing</a> for implementation details.</p>
+<p>By default, the library polls the enabled pins to determine whether an event has occurred. This approach
+allows use of any CPU pin to sense the DIOs, and makes no assumptions about
+interrupts. However, it means that the end-of-transmit event is not observed
+(and time-stamped) until <code>os_runloop_once()</code> is called.</p>
+<p>Optionally, you can configure the LMIC library to use interrupts. The
+interrupt handlers capture the time of
+the event. Actual processing is done the next time that <code>os_runloop_once()</code>
+is called, using the captured time. However, this requires that the
+DIO pins be wired to Arduino pins that support rising-edge interrupts,
+and it may require custom initialization code on your platform to
+hook up the interrupts.</p>
+<h3 id="controlling-protocol-timing">Controlling protocol timing</h3>
+<p>The timing of end-of-transmit interrupts is used to determine when to open the downlink receive window. Because of the considerations above, some inaccuracy in the time stamp for the end-of-transmit interrupt is inevitable.</p>
+<p>Fortunately, the timing of the receive windows at the device need not be extremely accurate; the LMIC has to turn on the receiver early enough to capture a downlink
+from the gateway and must leave the receiver on long enough to compensate for timing
+errors due to various inaccuracies. To make it easier for the device to catch downlinks, the gateway first transmits a preamble consisting of 8 symbols. The SX127x receiver needs to see at least 4 symbols to detect a message. The Arduino LMIC tries to enable the receiver for 6
+symbol times slightly before the start of the receive window.</p>
+<p>The HAL bases all timing on the Arduino <code>micros()</code> timer, which has a platform-specific
+granularity and accuracy, and is based on the primary microcontroller clock.</p>
+<p>If using an internal oscillator that is less than 100ppm accurate but better than 4000 ppm accurate, or if your other <code>loop()</code> processing
+is time consuming, you can use <a href="#lmic_setclockerror"><code>LMIC_setClockError()</code></a>
+to cause the library to leave the radio on longer. Note that for various reasons, it is not practical to set enormous clock errors. Oscillators that are 4000 ppm accurate or worse should be supplemented or disciplined with a better timing source. The LoRaWAN spec, for class B, implicitly assumes 100 ppm accuracy in the clock.</p>
+<p>Users of older versions of the library were advised to set large clock errors if they were experiencing timing problems. However, close analysis and debugging during the preparation of v3.1.0 of this library revealed that the real errors were in the timing calculations in the library. Once those were corrected, the need for large clock error settings was reduced. It's still possible to use large clock errors if needed, but this must be enabled via a compile time switch.</p>
+<p>An even more accurate solution could be to use a dedicated timer with an
+input capture unit, that can store the timestamp of a change on the DIO0
+pin (the only one that is timing-critical) entirely in hardware.
+Experience shows that this is not normally required, so we leave this as
+a customization to be performed on a platform-by-platform basis. We provide
+a special API, <code>radio_irq_handler_v2(u1_t dio, ostime_t tEvent)</code>. This
+API allows you to supply a hardware-captured time for extra accuracy.</p>
+<p>The practical consequence of inaccurate timing is reduced battery life;
+the LMIC must turn on the receiver earlier in order to be sure to capture downlink packets. However, this is a second order effect on class A devices; every receive is preceded by a transmit, which takes approximately ten times as much power per millisecond as a receive.</p>
+<h3 id="lmic_setclockerror"><code>LMIC_setClockError()</code></h3>
+<p>You may call this routine during initialization to inform the LMIC code about the timing accuracy of your system.</p>
+<div class="language-c++ highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">MAX_CLOCK_ERROR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">65535</span><span class="w"> </span><span class="p">};</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">LMIC_setClockError</span><span class="p">(</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="n">u2_t</span><span class="w"> </span><span class="n">error</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">);</span>
+</span></code></pre></div>
+<p>This function sets the anticipated relative clock error. <code>MAX_CLOCK_ERROR</code>
+represents +/- 100%, and 0 represents no additional clock compensation.
+To allow for an error of 20%, you would call</p>
+<div class="language-c++ highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">LMIC_setClockError</span><span class="p">(</span><span class="n">MAX_CLOCK_ERROR</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+</span></code></pre></div>
+<p>Setting a high clock error causes the RX windows to be opened earlier than it otherwise would be. This causes more power to be consumed. For Class A devices, this extra power is not substantial, but for Class B devices, this can be significant.</p>
+<p>For a variety of reasons, the LMIC normally ignores clock errors greater than 4000 ppm (0.4%). The compile-time flag <code>LMIC_ENABLE_arbitrary_clock_error</code> can remove this limit. To do this, define it to a non-zero value.</p>
+<p>This clock error is not reset by <code>LMIC_reset()</code>.</p>
+<h3 id="interrupts-and-arduino-system-timing">Interrupts and Arduino system timing</h3>
+<p>The IBM LMIC used as the basis for this code disables interrupts while the radio driver is active, to prevent reentrancy via <code>radio_irq_handler()</code> at unexpected moments. It uses <code>os_getTime()</code>, and assumes that <code>os_getTime()</code> still works when interrupts were disabled. This causes problems on Arduino platforms. Most board support packages use interrupts to advance <code>millis()</code> and <code>micros()</code>, and with these BSPs, <code>millis()</code> and <code>micros()</code> return incorrect values while interrupts are disabled. Although some BSPs (like the ones provided by MCCI) provide real time correctly while interrupts are disabled, this is not portable. It's not practical to make such changes in every BSP.</p>
+<p>To avoid this, the LMIC processes events in several steps; these steps ensure that <code>radio_irq_handler_v2()</code> is only called at predictable times.</p>
+<ol>
+<li>
+<p>If interrupts are enabled via <code>LMIC_USE_INTERRUPTS</code>, hardware interrupts catch the time of the interrupt and record that the interrupt occurred. These routines rely on hardware edge-sensitive interrupts. If your hardware interrupts are level-sensitive, you must mask the interrupt somehow at the ISR. You can't use SPI routines to talk to the radio, because this may leave the SPI system and the radio in undefined states. In this configuration, <code>hal_io_pollIRQs()</code> exists but is a no-op.</p>
+</li>
+<li>
+<p>If interrupts are not enabled via <code>LMIC_USE_INTERRUPTS</code>, the digital I/O lines are polled every so often by calling the routine <code>hal_io_pollIRQs()</code>. This routine watches for edges on the relevant digital I/O lines, and records the time of transition.</p>
+</li>
+<li>
+<p>The LMIC <code>os_runloop_once()</code> routine calls <code>hal_processPendingIRQs()</code>. This routine uses the timestamps captured by the hardware ISRs and <code>hal_io_pollIRQs()</code> to invoke <code>radio_irq_hander_v2()</code> with the appropriate information. <code>hal_processPendingIRQs()</code> in turn calls <code>hal_io_pollIRQs()</code> (in case interrupts are not configured).</p>
+</li>
+<li>
+<p>For compatibility with older versions of the Arduino LMIC, <code>hal_enableIRQs()</code> also calls <code>hal_io_pollIRQs()</code> when enabling interrupts. However, it does not dispatch the interrupts to <code>radio_irq_handler_v2()</code>; this must be done by a subsequent call to <code>hal_processPendingIRQs()</code>.</p>
+</li>
+</ol>
+<h2 id="downlink-data-rate">Downlink data rate</h2>
+<p>Note that the data rate used for downlink packets in the RX2 window varies by region. Consult your network's manual for any divergences from the LoRaWAN Regional Parameters. This library assumes that the network follows the regional default.</p>
+<p>Some networks use different values than the specification. For example, in Europe, the specification default is DR0 (SF12, 125 kHz bandwidth). However, iot.semtech.com and The Things Network both used SF9 / 125 kHz or DR3). If using over-the-air activation (OTAA), the network will download RX2 parameters as part of the JoinAccept message; the LMIC will honor the downloaded parameters.</p>
+<p>However, when using personalized activate (ABP), it is your
+responsibility to set the right settings, e.g. by adding this to your
+sketch (after calling <code>LMIC_setSession</code>). <code>ttn-abp.ino</code> already does
+this.</p>
+<div class="language-c++ highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">LMIC</span><span class="p">.</span><span class="n">dn2Dr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DR_SF9</span><span class="p">;</span>
+</span></code></pre></div>
+<h2 id="encoding-utilities">Encoding Utilities</h2>
+<p>It is generally important to make LoRaWAN messages as small as practical. Extra bytes mean extra transmit time, which wastes battery power and interferes with other nodes on the network.</p>
+<p>To simplify coding, the Arduino header file <lmic.h> defines some data encoding utility functions to encode floating-point data into <code>uint16_t</code> values using <code>sflt16</code> or <code>uflt16</code> bit layout. For even more efficiency, there are versions that use only the bottom 12 bits of the <code>uint16_t</code>, allowing for other bits to be carried in the top 4 bits, or for two values to be crammed into three bytes.</p>
+<ul>
+<li><code>uint16_t LMIC_f2sflt16(float)</code> converts a floating point number to a <a href="#sflt16"><code>sflt16</code></a>-encoded <code>uint16_t</code>.</li>
+<li><code>uint16_t LMIC_f2uflt16(float)</code> converts a floating-point number to a <a href="#uflt16"><code>uflt16</code></a>-encoded <code>uint16_t</code>.</li>
+<li><code>uint16_t LMIC_f2sflt12(float)</code> converts a floating-point number to a <a href="#sflt12"><code>sflt12</code></a>-encoded <code>uint16_t</code>, leaving the top four bits of the result set to zero.</li>
+<li><code>uint16_t LMIC_f2uflt12(float)</code> converts a floating-point number to a <a href="#sflt12"><code>uflt12</code></a>-encoded <code>uint16_t</code>, leaving the top four bits of the result set to zero.</li>
+</ul>
+<p>JavaScript code for decoding the data can be found in the following sections.</p>
+<h3 id="sflt16">sflt16</h3>
+<p>A <code>sflt16</code> datum represents an unsigned floating point number in the range [0, 1.0), transmitted as a 16-bit field. The encoded field is interpreted as follows:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">bits</th>
+<th style="text-align: left;">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">15</td>
+<td style="text-align: left;">Sign bit</td>
+</tr>
+<tr>
+<td style="text-align: center;">14..11</td>
+<td style="text-align: left;">binary exponent <code>b</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">10..0</td>
+<td style="text-align: left;">fraction <code>f</code></td>
+</tr>
+</tbody>
+</table>
+<p>The corresponding floating point value is computed by computing <code>f</code>/2048 * 2^(<code>b</code>-15). Note that this format is deliberately not IEEE-compliant; it's intended to be easy to decode by hand and not overwhelmingly sophisticated. However, it is similar to IEEE format in that it uses sign-magnitude rather than twos-complement for negative values.</p>
+<p>For example, if the data value is 0x8D, 0x55, the equivalent floating point number is found as follows.</p>
+<ol>
+<li>The full 16-bit number is 0x8D55.</li>
+<li>Bit 15 is 1, so this is a negative value.</li>
+<li><code>b</code> is 1, and <code>b</code>-15 is -14. 2^-14 is 1/16384</li>
+<li><code>f</code> is 0x555. 0x555/2048 = 1365/2048 is 0.667</li>
+<li><code>f * 2^(b-15)</code> is therefore 0.667/16384 or 0.00004068</li>
+<li>Since the number is negative, the value is -0.00004068</li>
+</ol>
+<p>Floating point mavens will immediately recognize:</p>
+<ul>
+<li>This format uses sign/magnitude representation for negative numbers.</li>
+<li>Numbers do not need to be normalized (although in practice they always are).</li>
+<li>The format is somewhat wasteful, because it explicitly transmits the most-significant bit of the fraction. (Most binary floating-point formats assume that <code>f</code> is is normalized, which means by definition that the exponent <code>b</code> is adjusted and <code>f</code> is shifted left until the most-significant bit of <code>f</code> is one. Most formats then choose to delete the most-significant bit from the encoding. If we were to do that, we would insist that the actual value of <code>f</code> be in the range 2048..4095, and then transmit only <code>f - 2048</code>, saving a bit. However, this complicates the handling of gradual underflow; see next point.)</li>
+<li>Gradual underflow at the bottom of the range is automatic and simple with this encoding; the more sophisticated schemes need extra logic (and extra testing) in order to provide the same feature.</li>
+</ul>
+<h4 id="javascript-decoder">JavaScript decoder</h4>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kd">function</span><span class="w"> </span><span class="nx">sflt162f</span><span class="p">(</span><span class="nx">rawSflt16</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="c1">// rawSflt16 is the 2-byte number decoded from wherever;</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="c1">// it&#39;s in range 0..0xFFFF</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="c1">// bit 15 is the sign bit</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">  </span><span class="c1">// bits 14..11 are the exponent</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span><span class="c1">// bits 10..0 are the the mantissa. Unlike IEEE format,</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">  </span><span class="c1">// the msb is explicit; this means that numbers</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">  </span><span class="c1">// might not be normalized, but makes coding for</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">  </span><span class="c1">// underflow easier.</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">  </span><span class="c1">// As with IEEE format, negative zero is possible, so</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="w">  </span><span class="c1">// we special-case that in hopes that JavaScript will</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">  </span><span class="c1">// also cooperate.</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="w">  </span><span class="c1">//</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="w">  </span><span class="c1">// The result is a number in the open interval (-1.0, 1.0);</span>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="w">  </span><span class="c1">//</span>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="w">  </span><span class="c1">// throw away high bits for repeatability.</span>
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="w">  </span><span class="nx">rawSflt16</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="mh">0xffff</span><span class="p">;</span>
+</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>
+</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="w">  </span><span class="c1">// special case minus zero:</span>
+</span><span id="__span-12-21"><a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">rawSflt16</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mh">0x8000</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="mf">0.0</span><span class="p">;</span>
+</span><span id="__span-12-22"><a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>
+</span><span id="__span-12-23"><a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a><span class="w">  </span><span class="c1">// extract the sign.</span>
+</span><span id="__span-12-24"><a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">sSign</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">rawSflt16</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x8000</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="o">-</span><span class="mf">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span>
+</span><span id="__span-12-25"><a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a>
+</span><span id="__span-12-26"><a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a><span class="w">  </span><span class="c1">// extract the exponent</span>
+</span><span id="__span-12-27"><a id="__codelineno-12-27" name="__codelineno-12-27" href="#__codelineno-12-27"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">exp1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">rawSflt16</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mf">11</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0xf</span><span class="p">;</span>
+</span><span id="__span-12-28"><a id="__codelineno-12-28" name="__codelineno-12-28" href="#__codelineno-12-28"></a>
+</span><span id="__span-12-29"><a id="__codelineno-12-29" name="__codelineno-12-29" href="#__codelineno-12-29"></a><span class="w">  </span><span class="c1">// extract the &quot;mantissa&quot; (the fractional part)</span>
+</span><span id="__span-12-30"><a id="__codelineno-12-30" name="__codelineno-12-30" href="#__codelineno-12-30"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">mant1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">rawSflt16</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x7ff</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2048.0</span><span class="p">;</span>
+</span><span id="__span-12-31"><a id="__codelineno-12-31" name="__codelineno-12-31" href="#__codelineno-12-31"></a>
+</span><span id="__span-12-32"><a id="__codelineno-12-32" name="__codelineno-12-32" href="#__codelineno-12-32"></a><span class="w">  </span><span class="c1">// convert back to a floating point number. We hope</span>
+</span><span id="__span-12-33"><a id="__codelineno-12-33" name="__codelineno-12-33" href="#__codelineno-12-33"></a><span class="w">  </span><span class="c1">// that Math.pow(2, k) is handled efficiently by</span>
+</span><span id="__span-12-34"><a id="__codelineno-12-34" name="__codelineno-12-34" href="#__codelineno-12-34"></a><span class="w">  </span><span class="c1">// the JS interpreter! If this is time critical code,</span>
+</span><span id="__span-12-35"><a id="__codelineno-12-35" name="__codelineno-12-35" href="#__codelineno-12-35"></a><span class="w">  </span><span class="c1">// you can replace by a suitable shift and divide.</span>
+</span><span id="__span-12-36"><a id="__codelineno-12-36" name="__codelineno-12-36" href="#__codelineno-12-36"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">f_unscaled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">sSign</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">mant1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="nx">exp1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">15</span><span class="p">);</span>
+</span><span id="__span-12-37"><a id="__codelineno-12-37" name="__codelineno-12-37" href="#__codelineno-12-37"></a>
+</span><span id="__span-12-38"><a id="__codelineno-12-38" name="__codelineno-12-38" href="#__codelineno-12-38"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">f_unscaled</span><span class="p">;</span>
+</span><span id="__span-12-39"><a id="__codelineno-12-39" name="__codelineno-12-39" href="#__codelineno-12-39"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="uflt16">uflt16</h3>
+<p>A <code>uflt16</code> datum represents an unsigned floating point number in the range [0, 1.0), transmitted as a 16-bit field. The encoded field is interpreted as follows:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">bits</th>
+<th style="text-align: left;">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">15..12</td>
+<td style="text-align: left;">binary exponent <code>b</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">11..0</td>
+<td style="text-align: left;">fraction <code>f</code></td>
+</tr>
+</tbody>
+</table>
+<p>The corresponding floating point value is computed by computing <code>f</code>/4096 * 2^(<code>b</code>-15). Note that this format is deliberately not IEEE-compliant; it's intended to be easy to decode by hand and not overwhelmingly sophisticated.</p>
+<p>For example, if the transmitted message contains 0xEB, 0xF7, and the transmitted byte order is big endian, the equivalent floating point number is found as follows.</p>
+<ol>
+<li>The full 16-bit number is 0xEBF7.</li>
+<li><code>b</code> is therefore 0xE, and <code>b</code>-15 is -1. 2^-1 is 1/2</li>
+<li><code>f</code> is 0xBF7. 0xBF7/4096 is 3063/4096 == 0.74780...</li>
+<li><code>f * 2^(b-15)</code> is therefore 0.74780/2 or 0.37390</li>
+</ol>
+<p>Floating point mavens will immediately recognize:</p>
+<ul>
+<li>There is no sign bit; all numbers are positive.</li>
+<li>Numbers do not need to be normalized (although in practice they always are).</li>
+<li>The format is somewhat wasteful, because it explicitly transmits the most-significant bit of the fraction. (Most binary floating-point formats assume that <code>f</code> is is normalized, which means by definition that the exponent <code>b</code> is adjusted and <code>f</code> is shifted left until the most-significant bit of <code>f</code> is one. Most formats then choose to delete the most-significant bit from the encoding. If we were to do that, we would insist that the actual value of <code>f</code> be in the range 4096..8191, and then transmit only <code>f - 4096</code>, saving a bit. However, this complicated the handling of gradual underflow; see next point.)</li>
+<li>Gradual underflow at the bottom of the range is automatic and simple with this encoding; the more sophisticated schemes need extra logic (and extra testing) in order to provide the same feature.</li>
+</ul>
+<h4 id="uflt16-javascript-decoder">uflt16 JavaScript decoder</h4>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kd">function</span><span class="w"> </span><span class="nx">uflt162f</span><span class="p">(</span><span class="nx">rawUflt16</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="c1">// rawUflt16 is the 2-byte number decoded from wherever;</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="c1">// it&#39;s in range 0..0xFFFF</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="c1">// bits 15..12 are the exponent</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span><span class="c1">// bits 11..0 are the the mantissa. Unlike IEEE format,</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">  </span><span class="c1">// the msb is explicit; this means that numbers</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">  </span><span class="c1">// might not be normalized, but makes coding for</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">  </span><span class="c1">// underflow easier.</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">  </span><span class="c1">// As with IEEE format, negative zero is possible, so</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">  </span><span class="c1">// we special-case that in hopes that JavaScript will</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">  </span><span class="c1">// also cooperate.</span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">  </span><span class="c1">//</span>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="w">  </span><span class="c1">// The result is a number in the half-open interval [0, 1.0);</span>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">  </span><span class="c1">//</span>
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="w">  </span><span class="c1">// throw away high bits for repeatability.</span>
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="w">  </span><span class="nx">rawUflt16</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="mh">0xffff</span><span class="p">;</span>
+</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>
+</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="w">  </span><span class="c1">// extract the exponent</span>
+</span><span id="__span-13-20"><a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">exp1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">rawUflt16</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mf">12</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0xf</span><span class="p">;</span>
+</span><span id="__span-13-21"><a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>
+</span><span id="__span-13-22"><a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a><span class="w">  </span><span class="c1">// extract the &quot;mantissa&quot; (the fractional part)</span>
+</span><span id="__span-13-23"><a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">mant1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">rawUflt16</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0xfff</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">4096.0</span><span class="p">;</span>
+</span><span id="__span-13-24"><a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a>
+</span><span id="__span-13-25"><a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a><span class="w">  </span><span class="c1">// convert back to a floating point number. We hope</span>
+</span><span id="__span-13-26"><a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a><span class="w">  </span><span class="c1">// that Math.pow(2, k) is handled efficiently by</span>
+</span><span id="__span-13-27"><a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a><span class="w">  </span><span class="c1">// the JS interpreter! If this is time critical code,</span>
+</span><span id="__span-13-28"><a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a><span class="w">  </span><span class="c1">// you can replace by a suitable shift and divide.</span>
+</span><span id="__span-13-29"><a id="__codelineno-13-29" name="__codelineno-13-29" href="#__codelineno-13-29"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">f_unscaled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">mant1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="nx">exp1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">15</span><span class="p">);</span>
+</span><span id="__span-13-30"><a id="__codelineno-13-30" name="__codelineno-13-30" href="#__codelineno-13-30"></a>
+</span><span id="__span-13-31"><a id="__codelineno-13-31" name="__codelineno-13-31" href="#__codelineno-13-31"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">f_unscaled</span><span class="p">;</span>
+</span><span id="__span-13-32"><a id="__codelineno-13-32" name="__codelineno-13-32" href="#__codelineno-13-32"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="sflt12">sflt12</h3>
+<p>A <code>sflt12</code> datum represents an signed floating point number in the range [0, 1.0), transmitted as a 12-bit field. The encoded field is interpreted as follows:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">bits</th>
+<th style="text-align: left;">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">11</td>
+<td style="text-align: left;">sign bit</td>
+</tr>
+<tr>
+<td style="text-align: center;">11..8</td>
+<td style="text-align: left;">binary exponent <code>b</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">7..0</td>
+<td style="text-align: left;">fraction <code>f</code></td>
+</tr>
+</tbody>
+</table>
+<p>The corresponding floating point value is computed by computing <code>f</code>/128 * 2^(<code>b</code>-15). Note that this format is deliberately not IEEE-compliant; it's intended to be easy to decode by hand and not overwhelmingly sophisticated.</p>
+<p>For example, if the transmitted message contains 0x8, 0xD5, the equivalent floating point number is found as follows.</p>
+<ol>
+<li>The full 16-bit number is 0x8D5.</li>
+<li>The number is negative.</li>
+<li><code>b</code> is 0x1, and <code>b</code>-15 is -14. 2^-14 is 1/16384</li>
+<li><code>f</code> is 0x55. 0x55/128 is 85/128, or 0.66</li>
+<li><code>f * 2^(b-15)</code> is therefore 0.66/16384 or 0.000041 (to two significant digits)</li>
+<li>The decoded number is therefore -0.000041.</li>
+</ol>
+<p>Floating point mavens will immediately recognize:</p>
+<ul>
+<li>This format uses sign/magnitude representation for negative numbers.</li>
+<li>Numbers do not need to be normalized (although in practice they always are).</li>
+<li>The format is somewhat wasteful, because it explicitly transmits the most-significant bit of the fraction. (Most binary floating-point formats assume that <code>f</code> is is normalized, which means by definition that the exponent <code>b</code> is adjusted and <code>f</code> is shifted left until the most-significant bit of <code>f</code> is one. Most formats then choose to delete the most-significant bit from the encoding. If we were to do that, we would insist that the actual value of <code>f</code> be in the range 128 .. 256, and then transmit only <code>f - 128</code>, saving a bit. However, this complicates the handling of gradual underflow; see next point.)</li>
+<li>Gradual underflow at the bottom of the range is automatic and simple with this encoding; the more sophisticated schemes need extra logic (and extra testing) in order to provide the same feature.</li>
+<li>It can be strongly argued that dropping the sign bit would be worth the effort, as this would get us 14% more resolution for a minor amount of work.</li>
+</ul>
+<h4 id="sflt12f-javascript-decoder">sflt12f JavaScript decoder</h4>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kd">function</span><span class="w"> </span><span class="nx">sflt12f</span><span class="p">(</span><span class="nx">rawSflt12</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="c1">// rawSflt12 is the 2-byte number decoded from wherever;</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="c1">// it&#39;s in range 0..0xFFF (12 bits). For safety, we mask</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span><span class="c1">// on entry and discard the high-order bits.</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">  </span><span class="c1">// bit 11 is the sign bit</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">  </span><span class="c1">// bits 10..7 are the exponent</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">  </span><span class="c1">// bits 6..0 are the the mantissa. Unlike IEEE format,</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">  </span><span class="c1">// the msb is explicit; this means that numbers</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">  </span><span class="c1">// might not be normalized, but makes coding for</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">  </span><span class="c1">// underflow easier.</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">  </span><span class="c1">// As with IEEE format, negative zero is possible, so</span>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="w">  </span><span class="c1">// we special-case that in hopes that JavaScript will</span>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="w">  </span><span class="c1">// also cooperate.</span>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="w">  </span><span class="c1">//</span>
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="w">  </span><span class="c1">// The result is a number in the open interval (-1.0, 1.0);</span>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="w">  </span><span class="c1">//</span>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="w">  </span><span class="c1">// throw away high bits for repeatability.</span>
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="w">  </span><span class="nx">rawSflt12</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="mh">0xfff</span><span class="p">;</span>
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>
+</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="w">  </span><span class="c1">// special case minus zero:</span>
+</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">rawSflt12</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mh">0x800</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="mf">0.0</span><span class="p">;</span>
+</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>
+</span><span id="__span-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a><span class="w">  </span><span class="c1">// extract the sign.</span>
+</span><span id="__span-14-25"><a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">sSign</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">rawSflt12</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x800</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="o">-</span><span class="mf">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span>
+</span><span id="__span-14-26"><a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a>
+</span><span id="__span-14-27"><a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a><span class="w">  </span><span class="c1">// extract the exponent</span>
+</span><span id="__span-14-28"><a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">exp1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">rawSflt12</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mf">7</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0xf</span><span class="p">;</span>
+</span><span id="__span-14-29"><a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a>
+</span><span id="__span-14-30"><a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a><span class="w">  </span><span class="c1">// extract the &quot;mantissa&quot; (the fractional part)</span>
+</span><span id="__span-14-31"><a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">mant1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">rawSflt12</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x7f</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">128.0</span><span class="p">;</span>
+</span><span id="__span-14-32"><a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a>
+</span><span id="__span-14-33"><a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a><span class="w">  </span><span class="c1">// convert back to a floating point number. We hope</span>
+</span><span id="__span-14-34"><a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a><span class="w">  </span><span class="c1">// that Math.pow(2, k) is handled efficiently by</span>
+</span><span id="__span-14-35"><a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a><span class="w">  </span><span class="c1">// the JS interpreter! If this is time critical code,</span>
+</span><span id="__span-14-36"><a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a><span class="w">  </span><span class="c1">// you can replace by a suitable shift and divide.</span>
+</span><span id="__span-14-37"><a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">f_unscaled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">sSign</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">mant1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="nx">exp1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">15</span><span class="p">);</span>
+</span><span id="__span-14-38"><a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a>
+</span><span id="__span-14-39"><a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">f_unscaled</span><span class="p">;</span>
+</span><span id="__span-14-40"><a id="__codelineno-14-40" name="__codelineno-14-40" href="#__codelineno-14-40"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="uflt12">uflt12</h3>
+<p>A <code>uflt12</code> datum represents an unsigned floating point number in the range [0, 1.0), transmitted as a 16-bit field. The encoded field is interpreted as follows:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">bits</th>
+<th style="text-align: left;">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">11..8</td>
+<td style="text-align: left;">binary exponent <code>b</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">7..0</td>
+<td style="text-align: left;">fraction <code>f</code></td>
+</tr>
+</tbody>
+</table>
+<p>The corresponding floating point value is computed by computing <code>f</code>/256 * 2^(<code>b</code>-15). Note that this format is deliberately not IEEE-compliant; it's intended to be easy to decode by hand and not overwhelmingly sophisticated.</p>
+<p>For example, if the transmitted message contains 0x1, 0xAB, the equivalent floating point number is found as follows.</p>
+<ol>
+<li>The full 16-bit number is 0x1AB.</li>
+<li><code>b</code> is therefore 0x1, and <code>b</code>-15 is -14. 2^-14 is 1/16384</li>
+<li><code>f</code> is 0xAB. 0xAB/256 is 0.67</li>
+<li><code>f * 2^(b-15)</code> is therefore 0.67/16384 or 0.0000408 (to three significant digits)</li>
+</ol>
+<p>Floating point mavens will immediately recognize:</p>
+<ul>
+<li>There is no sign bit; all numbers are positive.</li>
+<li>Numbers do not need to be normalized (although in practice they always are).</li>
+<li>The format is somewhat wasteful, because it explicitly transmits the most-significant bit of the fraction. (Most binary floating-point formats assume that <code>f</code> is is normalized, which means by definition that the exponent <code>b</code> is adjusted and <code>f</code> is shifted left until the most-significant bit of <code>f</code> is one. Most formats then choose to delete the most-significant bit from the encoding. If we were to do that, we would insist that the actual value of <code>f</code> be in the range 256 .. 512, and then transmit only <code>f - 256</code>, saving a bit. However, this complicates the handling of gradual underflow; see next point.)</li>
+<li>Gradual underflow at the bottom of the range is automatic and simple with this encoding; the more sophisticated schemes need extra logic (and extra testing) in order to provide the same feature.</li>
+</ul>
+<h4 id="uflt12f-javascript-decoder">uflt12f JavaScript decoder</h4>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kd">function</span><span class="w"> </span><span class="nx">uflt12f</span><span class="p">(</span><span class="nx">rawUflt12</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="c1">// rawUflt12 is the 2-byte number decoded from wherever;</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span><span class="c1">// it&#39;s in range 0..0xFFF (12 bits). For safety, we mask</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">  </span><span class="c1">// on entry and discard the high-order bits.</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">  </span><span class="c1">// bits 11..8 are the exponent</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">  </span><span class="c1">// bits 7..0 are the the mantissa. Unlike IEEE format,</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">  </span><span class="c1">// the msb is explicit; this means that numbers</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">  </span><span class="c1">// might not be normalized, but makes coding for</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">  </span><span class="c1">// underflow easier.</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">  </span><span class="c1">// As with IEEE format, negative zero is possible, so</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="w">  </span><span class="c1">// we special-case that in hopes that JavaScript will</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">  </span><span class="c1">// also cooperate.</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">  </span><span class="c1">//</span>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="w">  </span><span class="c1">// The result is a number in the half-open interval [0, 1.0);</span>
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="w">  </span><span class="c1">//</span>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="w">  </span><span class="c1">// throw away high bits for repeatability.</span>
+</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="w">  </span><span class="nx">rawUflt12</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="mh">0xfff</span><span class="p">;</span>
+</span><span id="__span-15-19"><a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a>
+</span><span id="__span-15-20"><a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="w">  </span><span class="c1">// extract the exponent</span>
+</span><span id="__span-15-21"><a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">exp1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">rawUflt12</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mf">8</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0xf</span><span class="p">;</span>
+</span><span id="__span-15-22"><a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a>
+</span><span id="__span-15-23"><a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a><span class="w">  </span><span class="c1">// extract the &quot;mantissa&quot; (the fractional part)</span>
+</span><span id="__span-15-24"><a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">mant1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">rawUflt12</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0xff</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">256.0</span><span class="p">;</span>
+</span><span id="__span-15-25"><a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a>
+</span><span id="__span-15-26"><a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a><span class="w">  </span><span class="c1">// convert back to a floating point number. We hope</span>
+</span><span id="__span-15-27"><a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a><span class="w">  </span><span class="c1">// that Math.pow(2, k) is handled efficiently by</span>
+</span><span id="__span-15-28"><a id="__codelineno-15-28" name="__codelineno-15-28" href="#__codelineno-15-28"></a><span class="w">  </span><span class="c1">// the JS interpreter! If this is time critical code,</span>
+</span><span id="__span-15-29"><a id="__codelineno-15-29" name="__codelineno-15-29" href="#__codelineno-15-29"></a><span class="w">  </span><span class="c1">// you can replace by a suitable shift and divide.</span>
+</span><span id="__span-15-30"><a id="__codelineno-15-30" name="__codelineno-15-30" href="#__codelineno-15-30"></a><span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nx">f_unscaled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">sSign</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">mant1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="nx">exp1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">15</span><span class="p">);</span>
+</span><span id="__span-15-31"><a id="__codelineno-15-31" name="__codelineno-15-31" href="#__codelineno-15-31"></a>
+</span><span id="__span-15-32"><a id="__codelineno-15-32" name="__codelineno-15-32" href="#__codelineno-15-32"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">f_unscaled</span><span class="p">;</span>
+</span><span id="__span-15-33"><a id="__codelineno-15-33" name="__codelineno-15-33" href="#__codelineno-15-33"></a><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="release-history">Release History</h2>
+<ul>
+<li>
+<p>HEAD has the following changes.</p>
+</li>
+<li>
+<p>Enable device time request by default in config file (<a href="https://github.com/mcci-catena/arduino-lmic/issues/840">#840</a>).</p>
+</li>
+<li>
+<p>v4.1.1 is a patch release.</p>
+</li>
+<li>
+<p>Fix US-like regions when network server disables all channels before setting others up (<a href="https://github.com/mcci-catena/arduino-lmic/issues/819">#819</a>).</p>
+</li>
+<li>Fix US-like regions when network server disables all banks before setting others up (<a href="https://github.com/mcci-catena/arduino-lmic/issues/820">#820</a>).</li>
+<li>
+<p>Documentation improvements in README and in code commentary.</p>
+</li>
+<li>
+<p>v4.1.0 contains the following changes</p>
+</li>
+<li>
+<p>Adapt <code>ttn-otaa-network-time</code> example to be compatible with <a href="https://github.com/PaulStoffregen/Time">PaulStoffregen/Time</a> v1.6.1, which deletes <code>Time.h</code> in favor of <code>TimeLib.h</code> <a href="https://github.com/mcci-catena/arduino-lmic/issues/763">#763</a>. Version is v4.0.1-pre1.</p>
+</li>
+<li>Add support for TTGO LoRa32-OLED v2.1.6. (Thanks to <a href="https://github.com/ChrSchultz">@ChrSchultz</a>, <a href="https://github.com/mcci-catena/arduino-lmic/pull/692">#692</a>.)</li>
+<li>Correct max TX EIRP for Japan to 13 dBm. (Thanks to <a href="https://github.com/ryos36">@ryos36</a>, <a href="https://github.com/mcci-catena/arduino-lmic/pull/662">#662</a>.)</li>
+<li>Correct link in this document to the LMIC-v4.0.0 pdf (<a href="https://github.com/mcci-catena/arduino-lmic/issues/788">#788</a>, thanks <a href="https://github.com/lnlp">@lnlp</a>).</li>
+<li>Warn about Feather pin wiring requirements (<a href="https://github.com/mcci-catena/arduino-lmic/issues/755">#755</a>, thanks to <a href="https://github.com/d-a-v">@d-a-v</a>).</li>
+<li>Fix typos in this document (<a href="https://github.com/mcci-catena/arduino-lmic/issues/780">#780</a>, thanks <a href="https://github.com/PeeJay">@PeeJay</a>).</li>
+<li>Fix additional warnings on non-ARM platforms (<a href="https://github.com/mcci-catena/arduino-lmic/issues/791">#791</a>, thanks <a href="https://github.com/d-a-v">@d-a-v</a>).</li>
+<li>Allow application to set the value to be used in <code>DeviceStatusAns</code> MAC messages (<a href="https://github.com/mcci-catena/arduino-lmic/issues/576">#576</a> and <a href="https://github.com/mcci-catena/arduino-lmic/issues/560">#560</a>, thanks to <a href="https://github.com/altishchenko">@altishchenko</a>).</li>
+<li>Minor adjustments to the compliance sketch (<a href="https://github.com/mcci-catena/arduino-lmic/issues/576">#800</a>).</li>
+<li>
+<p>Update the LMIC reference manual to <code>LMIC-v4.1.0.pdf</code>.</p>
+</li>
+<li>
+<p>v4.0 is a major release; changes are significant enough to be "likely breaking". It includes the following changes.</p>
+</li>
+<li>
+<p>Fix some broken documentation references <a href="https://github.com/mcci-catena/arduino-lmic/issues/644">#644</a>, <a href="https://github.com/mcci-catena/arduino-lmic/pulls/646">#646</a>, <a href="https://github.com/mcci-catena/arduino-lmic/pulls/673">#673</a>.</p>
+</li>
+<li>Re-added CI testing, since Travis CI no longer works for us <a href="https://github.com/mcci-catena/arduino-lmic/issues/647">#647</a>; fixed AVR compliance CI compile <a href="https://github.com/mcci-catena/arduino-lmic/issues/679">#679</a>.</li>
+<li>Don't use <code>defined()</code> in macro definitions <a href="https://github.com/mcci-catena/arduino-lmic/issues/606">#606</a></li>
+<li>Fix a warning on AVR32 <a href="https://github.com/mcci-catena/arduino-lmic/pulls/709">#709</a>.</li>
+<li>Fix Helium link in examples <a href="https://github.com/mcci-catena/arduino-lmic/issues/715">#715</a>, <a href="https://github.com/mcci-catena/arduino-lmic/pulls/718">#718</a>.</li>
+<li>Remove <code>XCHANNEL</code> support from US region <a href="https://github.com/mcci-catena/arduino-lmic/issues/404">#404</a></li>
+<li>Assign channels randomly without replacement <a href="https://github.com/mcci-catena/arduino-lmic/issues/515">#515</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/619">#619</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/730">#730</a>.</li>
+<li>Don't allow <code>LMIC_setupChannel()</code> to change default channels <a href="https://github.com/mcci-catena/arduino-lmic/issues/722">#722</a>. Add <code>LMIC_queryNumDefaultChannels()</code> <a href="https://github.com/mcci-catena/arduino-lmic/issues/700">#700</a>.</li>
+<li>Don't accept out-of-range DRs from MAC downlink messages <a href="https://github.com/mcci-catena/arduino-lmic/issues/723">#723</a></li>
+<li>Adopt semantic versions completely <a href="https://github.com/mcci-catena/arduino-lmic/issues/726">#726</a>.</li>
+<li>Implement JoinAccept CFList processing for US/AU <a href="https://github.com/mcci-catena/arduino-lmic/issues/739">#739</a>.</li>
+<li>Correct JoinAccept CFList processing for AS923 <a href="https://github.com/mcci-catena/arduino-lmic/issues/740">#740</a>.</li>
+<li>
+<p>Don't compile board config objects when we know for sure they'll not be used; compilers can't always tell <a href="https://github.com/mcci-catena/arduino-lmic/issues/736">#736</a>.</p>
+</li>
+<li>
+<p>v3.3.0 is primarily a maintenance and roll-up release.</p>
+</li>
+<li>
+<p>Added <a href="doc/LoRaWAN-at-a-glance.pdf">LoRaWAN-at-a-glance</a> and a <a href="doc/LMIC-FSM.pdf">state diagram of the LMIC</a>.</p>
+</li>
+<li>Several PRs from Matthijs Kooijman to improve compatibility with the original Arduino LMIC (<a href="https://github.com/mcci-catena/arduino-lmic/issues/608">#608</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/609">#609</a>).</li>
+<li>
+<p>Numerous documentation improvements contributed by the community (<a href="https://github.com/mcci-catena/arduino-lmic/issues/431">#431</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/612">#612</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/614">#614</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/625">#625</a>).</p>
+</li>
+<li>
+<p>v3.2.0 has the following changes:</p>
+</li>
+<li>
+<p><a href="https://github.com/mcci-catena/arduino-lmic/issues/550">#550</a> fixes debug prints in <code>ttn-otaa.ino</code>.</p>
+</li>
+<li><a href="https://github.com/mcci-catena/arduino-lmic/issues/553">#553</a> add full regional support to <code>raw.ino</code> and <code>ttn-abp.ino</code>.</li>
+<li><a href="https://github.com/mcci-catena/arduino-lmic/issues/570">#570</a> corrects handling of piggy-back MAC responses when sending an <code>LMIC_sendAlive()</code> (<code>OPMODE_POLL</code>) message.</li>
+<li><a href="https://github.com/mcci-catena/arduino-lmic/issues/524">#524</a> corrects handling of interrupt disable, and slightly refactors the low-level interrupt handling wrappers for clarity. With this change, <code>radio_irq_handler_v2()</code> is never called except from the run loop, and so the radio driver need not (and does not) disable interrupts. Version is v3.1.0.20.</li>
+<li><a href="https://github.com/mcci-catena/arduino-lmic/issues/568">#568</a> improves documentation for the radio driver.</li>
+<li>
+<p><a href="https://github.com/mcci-catena/arduino-lmic/pull/537">#537</a> fixes a compile error in SX1272 support. (Thanks @ricaun.) Version is v3.1.0.10.</p>
+</li>
+<li>
+<p>v3.1.0 officially adopts the changes from v3.0.99. There were dozens of changes; check the GitHub issue logs and change logs. This was a breaking release (due to changes in data layout in the LMIC structure; the structure is accessed by apps).</p>
+</li>
+<li>
+<p>v3.0.99 (the pre-release for v3.1.0) added the following changes. (This is not an exhaustive list.) Note that the behavior of the LMIC changes in important ways, as it now enforces the LoRaWAN mandated maximum frame size for a given data rate. For Class A devices, this may cause your device to go silent after join, if you're not able to handle the frame size dictated by the parameters downloaded to the device by the network during join. The library will attempt to find a data rate that will work, but there is no guarantee that the network has provided such a data rate.</p>
+</li>
+<li>
+<p><a href="https://github.com/mcci-catena/arduino-lmic/pull/470">#470</a> corrects the name of AU915 region. <a href="https://github.com/mcci-catena/arduino-lmic/pull/516">#516</a> makes sure that <code>LMIC_REGION_au921</code> is defined (but deprecated) for backward compatibility.</p>
+</li>
+<li><a href="https://github.com/mcci-catena/arduino-lmic/pull/452">#452</a> fixes a bug <a href="https://github.com/mcci-catena/arduino-lmic/issues/450">#450</a> in <code>LMIC_clrTxData()</code> that would cause join hiccups if called while (1) a join was in progress and (2) a regular data packet was waiting to be uplinked after the join completes. Also fixes AS923- and AU915-specific bugs <a href="https://github.com/mcci-catena/arduino-lmic/issues/446">#446</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/447">#447</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/448">#448</a>. Version is <code>v3.0.99.5</code>.</li>
+<li><a href="https://github.com/mcci-catena/arduino-lmic/pull/443">#443</a> addresses a number of problems found in cooperation with <a href="https://redwoodcomm.com">RedwoodComm</a>. They suggested a timing improvement to speed testing; this lead to the discovery of a number of problems. Some were in the compliance framework, but one corrects timing for very high spreading factors, several (<a href="https://github.com/mcci-catena/arduino-lmic/issues/442">#442</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/438">#436</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/435">#435</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/434">#434</a> fix glaring problems in FSK support; <a href="https://github.com/mcci-catena/arduino-lmic/issues/249">#249</a> greatly enhances stability by making API calls much less likely to crash the LMIC if it's active. Version is v3.0.99.3.</li>
+<li><a href="https://github.com/mcci-catena/arduino-lmic/issues/388">#388</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/390">#389</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/390">#390</a> change the LMIC to honor the maximum frame size for a given DR in the current region. This proves to be a breaking change for many applications, especially in the US, because DR0 in the US supports only an 11-byte payload, and many apps were ignoring this. Additional error codes were defined so that apps can detect and recover from this situation, but they must detect; otherwise they run the risk of being blocked from the network by the LMIC. Because of this change, the next version of the LMIC will be V3.1 or higher, and the LMIC version for development is bumped to 3.0.99.0.</li>
+<li><a href="https://github.com/mcci-catena/arduino-lmic/issues/401">#401</a> adds 865 MHz through 868 MHz to the "1%" band for EU.</li>
+<li><a href="https://github.com/mcci-catena/arduino-lmic/pull/395">#395</a> corrects pin-mode initialization if using <code>hal_interrupt_init()</code>.</li>
+<li><a href="https://github.com/mcci-catena/arduino-lmic/issues/385">#385</a> corrects an error handling data rate selection for <code>TxParamSetupReq</code>, found in US-915 certification testing. (v2.3.2.71)</li>
+<li><a href="https://github.com/mcci-catena/arduino-lmic/pull/378">#378</a> completely reworks MAC downlink handling. Resulting code passes the LoRaWAN V1.5 EU certification test. (v2.3.2.70)</li>
+<li>
+<p><a href="https://github.com/mcci-catena/arduino-lmic/issues/360">#360</a> adds support for the KR-920 regional plan.</p>
+</li>
+<li>
+<p>v2.3.2 is a patch release. It incorporates two pull requests.</p>
+</li>
+<li>
+<p><a href="https://github.com/mcci-catena/arduino-lmic/pull/204">#204</a> eliminates a warning if using a custom pin-map.</p>
+</li>
+<li>
+<p><a href="https://github.com/mcci-catena/arduino-lmic/pull/206">#206</a> updates CI testing to Arduino IDE v1.8.8.</p>
+</li>
+<li>
+<p>v2.3.1 is a patch release. It adds <code>&lt;arduino_lmic_user_configuration.h&gt;</code>, which loads the pre-processor LMIC configuration variables into scope (issue <a href="https://github.com/mcci-catena/arduino-lmic/issues/199">#199</a>).</p>
+</li>
+<li>
+<p>v2.3.0 introduces two important changes.</p>
+</li>
+<li>
+<p>The pin-map is extended with an additional field <code>pConfig</code>, pointing to a C++ class instance. This instance, if provided, has extra methods for dealing with TCXO control and other fine details of operating the radio. It also gives a natural way for us to extend the behavior of the HAL.</p>
+</li>
+<li>
+<p>Pinmaps can be pre-configured into the library, so that users don't have to do this in every sketch.</p>
+</li>
+</ul>
+<p>Accompanying this was a fairly large refactoring of inner header files. We now have top-level header file <code>&lt;arduino_lmic_hal_configuration.h&gt;</code>, which provides much the same info as the original <code>&lt;hal/hal.h&gt;</code>, without bringing most of the LMIC internal definitions into scope. We also changed the SPI API based on a suggestion from <code>@manuelbl</code>, making the HAL more friendly to structured BSPs (and also making the SPI API potentially faster).</p>
+<ul>
+<li>
+<p>Interim bug fixes: added a new API (<code>radio_irq_handler_v2()</code>), which allows the caller to provide the timestamp of the interrupt. This allows for more accurate timing, because the knowledge of interrupt overhead can be moved to a platform-specific layer (<a href="https://github.com/mcci-catena/arduino-lmic/issues/148">#148</a>). Fixed compile issues on ESP32 (<a href="https://github.com/mcci-catena/arduino-lmic/issues/140">#140</a> and <a href="https://github.com/mcci-catena/arduino-lmic/issues/150">#153</a>). We added ESP32 and 32u4 as targets in CI testing. We switched CI testing to Arduino IDE 1.8.7.
+  Fixed issue <a href="https://github.com/mcci-catena/arduino-lmic/issues/161">#161</a> selecting the Japan version of as923 using <code>CFG_as923jp</code> (selecting via <code>CFG_as923</code> and <code>LMIC_COUNTRY_CODE=LMIC_COUNTRY_CODE_JP</code> worked).
+  Fixed <a href="https://github.com/mcci-catena/arduino-lmic/issues/38">#38</a> -- now any call to hal_init() will put the NSS line in the idle (high/inactive) state. As a side effect, RXTX is initialized, and RESET code changed to set value before transitioning state. Likely no net effect, but certainly more correct.</p>
+</li>
+<li>
+<p>V2.2.2 adds <code>ttn-abp-feather-us915-dht22.ino</code> example, and fixes some documentation typos. It also fixes encoding of the <code>Margin</code> field of the <code>DevStatusAns</code> MAC message (<a href="https://github.com/mcci-catena/arduino-lmic/issues/130">#130</a>). This makes Arduino LMIC work with networks implemented with <a href="https://www.loraserver.io/">LoraServer</a>.</p>
+</li>
+<li>
+<p>V2.2.1 corrects the value of <code>ARDUINO_LMIC_VERSION</code> (<a href="https://github.com/mcci-catena/arduino-lmic/issues/123">#123</a>), allows ttn-otaa-feather-us915 example to compile for the Feather 32u4 LoRa (<a href="https://github.com/mcci-catena/arduino-lmic/issues/116">#116</a>), and addresses documentation issues (<a href="https://github.com/mcci-catena/arduino-lmic/issues/122">#122</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/120">#120</a>).</p>
+</li>
+<li>
+<p>V2.2.0 adds encoding functions and <code>tn-otaa-feather-us915-dht22.ino</code> example. Plus a large number of issues: <a href="https://github.com/mcci-catena/arduino-lmic/issues/59">#59</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/60">#60</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/63">#63</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/47">#64</a> (listen-before-talk for Japan), <a href="https://github.com/mcci-catena/arduino-lmic/issues/65">#65</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/68">#68</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/75">#75</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/78">#78</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/80">#80</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/91">#91</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/98">#98</a>, <a href="https://github.com/mcci-catena/arduino-lmic/issues/101">#101</a>. Added full Travis CI testing, switched to travis-ci.com as the CI service. Prepared to publish library in the official Arduino library list.</p>
+</li>
+<li>
+<p>V2.1.5 fixes issue <a href="https://github.com/mcci-catena/arduino-lmic/issues/56">#56</a> (a documentation bug). Documentation was quickly reviewed and other issues were corrected. The OTAA examples were also updated slightly.</p>
+</li>
+<li>
+<p>V2.1.4 fixes issues <a href="https://github.com/mcci-catena/arduino-lmic/issues/47">#47</a> and <a href="https://github.com/mcci-catena/arduino-lmic/issues/50">#50</a> in the radio driver for the SX1276 (both related to handling of output power control bits).</p>
+</li>
+<li>
+<p>V2.1.3 has a fix for issue <a href="https://github.com/mcci-catena/arduino-lmic/issues/43">#43</a>: handling of <code>LinkAdrRequest</code> was incorrect for US915 and AU915; when TTN added ADR support on US and AU, the deficiency was revealed (and caused an ASSERT).</p>
+</li>
+<li>
+<p>V2.1.2 has a fix for issue <a href="https://github.com/mcci-catena/arduino-lmic/issues/39">#39</a> (adding a prototype for <code>LMIC_DEBUG_PRINTF</code> if needed). Fully upward compatible, so just a patch.</p>
+</li>
+<li>
+<p>V2.1.1 has the same content as V2.1.2, but was accidentally released without updating <code>library.properties</code>.</p>
+</li>
+<li>
+<p>V2.1.0 adds support for the Murata LoRaWAN module.</p>
+</li>
+<li>
+<p>V2.0.2 adds support for additional regions.</p>
+</li>
+</ul>
+<h2 id="contributions">Contributions</h2>
+<p>This library started from the IBM V1.5 open-source code.</p>
+<ul>
+<li>
+<p>Thomas Telkamp and Matthijs Kooijman ported V1.5 to Arduino and did a lot of bug fixing.</p>
+</li>
+<li>
+<p>Terry Moore, LeRoy Leslie, Frank Rose, and ChaeHee Won did a lot of work on US support.</p>
+</li>
+<li>
+<p>Terry Moore added the AU915, AS923, KR920 and IN866 regions, and created the regionalization framework, and did corrections for LoRaWAN 1.0.3 compliance testing.</p>
+</li>
+<li>
+<p><a href="https://github.com/tanupoo"><code>@tanupoo</code></a> of the WIDE Project debugged AS923JP and LBT support.</p>
+</li>
+<li>
+<p><a href="https://github.com/frazar"><code>@frazar</code></a> contributed numerous features, e.g. network time support, CI testing, documentation improvements.</p>
+</li>
+<li>
+<p><a href="https://github.com/manuelbl"><code>@manuelbl</code></a> contributed numerous ESP32-related patches and improvements.</p>
+</li>
+<li>
+<p><a href="https://github.com/ngraziano"><code>@ngraziano</code></a> did extensive testing and contributed numerous ADR-related patches.</p>
+</li>
+</ul>
+<p>There are many others, who have contributed code and also participated in discussions, performed testing, reported problems and results. Thanks to all who have participated. We hope to use something like <a href="https://https://allcontributors.org/">All Contributors</a> to help keep this up to date, but so far the automation isn't working.</p>
+<h2 id="trademark-acknowledgements">Trademark Acknowledgements</h2>
+<p>LoRa is a registered trademark of Semtech Corporation. LoRaWAN is a registered trademark of the LoRa Alliance.</p>
+<p>MCCI and MCCI Catena are registered trademarks of MCCI Corporation.</p>
+<p>All other trademarks are the properties of their respective owners.</p>
+<h2 id="license">License</h2>
+<p>The upstream files from IBM v1.6 are based on the Berkeley license,
+and the merge which synchronized this repository therefore migrated
+the core files to the Berkeley license. However, modifications made
+in the Arduino branch were done under the Eclipse license, so the
+overall license of this repository is still Eclipse Public License
+v1.0. The examples which use a more liberal
+license. Some of the AES code is available under the LGPL. Refer to each
+individual source file for more details, but bear in mind that until
+the upstream developers look into this issue, it is safest to assume
+the Eclipse license applies.</p>
+<h3 id="support-open-source-hardware-and-software">Support Open Source Hardware and Software</h3>
+<p>MCCI invests time and resources providing this open source code, please support MCCI and open-source hardware by purchasing products from MCCI, Adafruit and other open-source hardware/software vendors!</p>
+<p>For information about MCCI's products, please visit <a href="https://store.mcci.com/">store.mcci.com</a>.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>

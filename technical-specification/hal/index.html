@@ -1,0 +1,933 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../programming-model-and-api/api-functions/">
+      
+      
+        <link rel="next" href="../examples/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.1, mkdocs-material-9.1.21">
+    
+    
+      
+        <title>Hardware Abstraction Layer - Arduino LoRaWAN MAC in C (LMIC)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.eebd395e.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hardware-abstraction-layer" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Arduino LoRaWAN MAC in C (LMIC)" class="md-header__button md-logo" aria-label="Arduino LoRaWAN MAC in C (LMIC)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Arduino LoRaWAN MAC in C (LMIC)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Hardware Abstraction Layer
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mcci-catena/arduino-lmic" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mcci-catena/arduino-lmic
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Arduino LoRaWAN MAC in C (LMIC)" class="md-nav__button md-logo" aria-label="Arduino LoRaWAN MAC in C (LMIC)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Arduino LoRaWAN MAC in C (LMIC)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mcci-catena/arduino-lmic" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mcci-catena/arduino-lmic
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+          Overview
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        README
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howto-add-region/" class="md-nav__link">
+        Adding Regions
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Technical Specification
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Technical Specification
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Programming Model and API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Programming Model and API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../programming-model-and-api/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../programming-model-and-api/run-time-functions/" class="md-nav__link">
+        Run-time Functions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../programming-model-and-api/application-callbacks/" class="md-nav__link">
+        Application callbacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../programming-model-and-api/the-lmic-struct/" class="md-nav__link">
+        The LMIC Struct
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../programming-model-and-api/api-functions/" class="md-nav__link">
+        API Functions
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Hardware Abstraction Layer
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Hardware Abstraction Layer
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hal-interface" class="md-nav__link">
+    HAL Interface
+  </a>
+  
+    <nav class="md-nav" aria-label="HAL Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_init" class="md-nav__link">
+    void hal_init ()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_init_ex-const-void-phaldata" class="md-nav__link">
+    void hal_init_ex (const void *pHalData)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_failed" class="md-nav__link">
+    void hal_failed ()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_pin_rxtx-u1_t-val" class="md-nav__link">
+    void hal_pin_rxtx (u1_t val)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_pin_rst-u1_t-val" class="md-nav__link">
+    void hal_pin_rst (u1_t val)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-radio_irq_handler-u1_t-dio" class="md-nav__link">
+    void radio_irq_handler (u1_t dio)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-radio_irq_handler_v2-u1_t-dio-os_time_t-tirq" class="md-nav__link">
+    void radio_irq_handler_v2 (u1_t dio, os_time_t tIrq)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_spi_readu1_t-cmd-u1_t-buf-size_t-len" class="md-nav__link">
+    void hal_spi_read(u1_t cmd, u1_t* buf, size_t len)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_spi_writeu1_t-cmd-const-u1_t-buf-size_t-len" class="md-nav__link">
+    void hal_spi_write(u1_t cmd, const u1_t* buf, size_t len)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#u4_t-hal_ticks" class="md-nav__link">
+    u4_t hal_ticks ()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_waituntil-u4_t-time" class="md-nav__link">
+    void hal_waitUntil (u4_t time)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#u1_t-hal_checktimer-u4_t-targettime" class="md-nav__link">
+    u1_t hal_checkTimer (u4_t targettime)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_disableirqs" class="md-nav__link">
+    void hal_disableIRQs ()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_enableirqs" class="md-nav__link">
+    void hal_enableIRQs ()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_sleep" class="md-nav__link">
+    void hal_sleep ()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s1_t-hal_getrssical" class="md-nav__link">
+    s1_t hal_getRssiCal ()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ostime_t-hal_setmodulepower-bool-val" class="md-nav__link">
+    ostime_t hal_setModulePower (bool val)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hal-reference-implementation-for-arduino" class="md-nav__link">
+    HAL Reference Implementation for Arduino
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        Examples
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Product Information
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../release-history/" class="md-nav__link">
+        Release History
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hal-interface" class="md-nav__link">
+    HAL Interface
+  </a>
+  
+    <nav class="md-nav" aria-label="HAL Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_init" class="md-nav__link">
+    void hal_init ()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_init_ex-const-void-phaldata" class="md-nav__link">
+    void hal_init_ex (const void *pHalData)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_failed" class="md-nav__link">
+    void hal_failed ()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_pin_rxtx-u1_t-val" class="md-nav__link">
+    void hal_pin_rxtx (u1_t val)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_pin_rst-u1_t-val" class="md-nav__link">
+    void hal_pin_rst (u1_t val)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-radio_irq_handler-u1_t-dio" class="md-nav__link">
+    void radio_irq_handler (u1_t dio)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-radio_irq_handler_v2-u1_t-dio-os_time_t-tirq" class="md-nav__link">
+    void radio_irq_handler_v2 (u1_t dio, os_time_t tIrq)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_spi_readu1_t-cmd-u1_t-buf-size_t-len" class="md-nav__link">
+    void hal_spi_read(u1_t cmd, u1_t* buf, size_t len)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_spi_writeu1_t-cmd-const-u1_t-buf-size_t-len" class="md-nav__link">
+    void hal_spi_write(u1_t cmd, const u1_t* buf, size_t len)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#u4_t-hal_ticks" class="md-nav__link">
+    u4_t hal_ticks ()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_waituntil-u4_t-time" class="md-nav__link">
+    void hal_waitUntil (u4_t time)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#u1_t-hal_checktimer-u4_t-targettime" class="md-nav__link">
+    u1_t hal_checkTimer (u4_t targettime)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_disableirqs" class="md-nav__link">
+    void hal_disableIRQs ()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_enableirqs" class="md-nav__link">
+    void hal_enableIRQs ()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#void-hal_sleep" class="md-nav__link">
+    void hal_sleep ()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s1_t-hal_getrssical" class="md-nav__link">
+    s1_t hal_getRssiCal ()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ostime_t-hal_setmodulepower-bool-val" class="md-nav__link">
+    ostime_t hal_setModulePower (bool val)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hal-reference-implementation-for-arduino" class="md-nav__link">
+    HAL Reference Implementation for Arduino
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="hardware-abstraction-layer">Hardware Abstraction Layer</h1>
+<p>The LMIC library is separated into a large portion of portable code and a small platform-specific part. By implementing the functions of this hardware abstraction layer with the specified semantics, the library can be easily ported to new hardware platforms.</p>
+<h2 id="hal-interface">HAL Interface</h2>
+<p>The following groups of hardware components must be supported:</p>
+<ul>
+<li>
+<p>Up to four digital I/O lines are needed in output mode to drive the radio’s antenna switch (<code>RX</code> and <code>TX</code>), the SPI chip select (<code>NSS</code>), and the reset line (<code>RST</code>).</p>
+</li>
+<li>
+<p>Three digital I/O lines are needed in input mode to sense the radio’s transmitter and receiver states (<code>DIO0</code>, <code>DIO1</code> and <code>DIO2</code>).</p>
+</li>
+<li>
+<p>A SPI unit is needed to read and write the radio’s registers.</p>
+</li>
+<li>
+<p>A timer unit is needed to precisely record events and to schedule new protocol actions.</p>
+</li>
+<li>
+<p>An interrupt controller cab be used to forward interrupts generated by the digital input lines.</p>
+</li>
+</ul>
+<p>This section describes the function interface required to access these hardware components:</p>
+<h3 id="void-hal_init"><code>void hal_init ()</code></h3>
+<p>Initialize the hardware abstraction layer. Configure all components (IO, SPI, TIMER, IRQ) for further use with the <code>hal_xxx()</code> functions. This function is deprecated and obsolete. The LMIC library calls <code>hal_init_ex()</code> instead. The client cannot call <code>hal_init()</code> or <code>hal_init_ex()</code> directly,as they are called from <code>os_init()</code>/<code>os_init_ex()</code>, and they must only be called once.</p>
+<h3 id="void-hal_init_ex-const-void-phaldata"><code>void hal_init_ex (const void *pHalData)</code></h3>
+<p>Initialize the hardware abstraction layer. Configure all components (IO, SPI, TIMER, IRQ) for further use with the <code>hal_xxx()</code> functions. pHalData is a pointer to HAL-specific data. When running with the Arduino HAL, this must be a pointer to a <code>lmic_pinmap</code> structure. The LMIC library calls <code>hal_init_ex()</code>. The client cannot call <code>hal_init()</code> or <code>hal_init_ex()</code> directly, as they are called from <code>os_init()</code>/<code>os_init_ex()</code>, and they must only be called once.</p>
+<h3 id="void-hal_failed"><code>void hal_failed ()</code></h3>
+<p>Perform “fatal failure” action. This function will be called by code assertions on fatal conditions. Possible actions could be HALT or reboot.</p>
+<h3 id="void-hal_pin_rxtx-u1_t-val"><code>void hal_pin_rxtx (u1_t val)</code></h3>
+<p>Drive the digital output pins RX and TX (0=receive, 1=transmit).</p>
+<h3 id="void-hal_pin_rst-u1_t-val"><code>void hal_pin_rst (u1_t val)</code></h3>
+<p>Control the radio RST pin (0=low, 1=high, 2=floating)</p>
+<h3 id="void-radio_irq_handler-u1_t-dio"><code>void radio_irq_handler (u1_t dio)</code></h3>
+<p>When the HAL detects a rising edge on any of the three input lines <code>DIO0</code>, <code>DIO1</code> and <code>DIO2</code>, it must notify the LMIC. It may do this by calling the function <code>radio_irq_handler()</code>. It must set dio to indicate the line which generated the interrupt (<code>0</code>, <code>1</code>, <code>2</code>). This routine is a wrapper for <code>radio_irq_handler_v2()</code>, and just calls <code>os_getTime()</code> to get the current time. If your hardware can capture the interrupt time more accurately, your HAL should use <code>radio_irq_handler_v2()</code>.</p>
+<h3 id="void-radio_irq_handler_v2-u1_t-dio-os_time_t-tirq"><code>void radio_irq_handler_v2 (u1_t dio, os_time_t tIrq)</code></h3>
+<p>When the HAL detects a rising edge on any of the three input lines <code>DIO0</code>, <code>DIO1</code> and <code>DIO2</code>, it must notify the LMIC. If the HAL has a high-accuracy time-stamp for when the line changed state, it should call the function <code>radio_irq_handler_v2()</code>. Set <code>dio</code> to indicate the line which changed (<code>0</code>, <code>1</code>, <code>2</code>). Set <code>tIrq</code> to the time-stamp of when the line changed state.</p>
+<h3 id="void-hal_spi_readu1_t-cmd-u1_t-buf-size_t-len"><code>void hal_spi_read(u1_t cmd, u1_t* buf, size_t len)</code></h3>
+<p>Perform a SPI read. Write the command byte <code>cmd</code>, then read <code>len</code> bytes into the buffer starting at buf.</p>
+<h3 id="void-hal_spi_writeu1_t-cmd-const-u1_t-buf-size_t-len"><code>void hal_spi_write(u1_t cmd, const u1_t* buf, size_t len)</code></h3>
+<p>Perform a SPI write. Write the command byte <code>cmd</code>, followed <code>len</code> bytes from buffer starting at <code>buf</code>.</p>
+<h3 id="u4_t-hal_ticks"><code>u4_t hal_ticks ()</code></h3>
+<p>Return 32-bit system time in ticks (same units as <code>ostime_t</code>) – but note that this is unsigned, whereas <code>ostime_t</code> is signed.</p>
+<h3 id="void-hal_waituntil-u4_t-time"><code>void hal_waitUntil (u4_t time)</code></h3>
+<p>Busy-wait until specified timestamp (in ticks) is reached.</p>
+<h3 id="u1_t-hal_checktimer-u4_t-targettime"><code>u1_t hal_checkTimer (u4_t targettime)</code></h3>
+<p>Check and rewind timer for given <code>targettime</code>. Return 1 if <code>targettime</code> is close (not worthwhile programming the timer). Otherwise rewind timer for exact <code>targettime</code> or for full timer period and return 0. The only action required when <code>targettime</code> is reached is that the CPU wakes up from possible sleep states.</p>
+<h3 id="void-hal_disableirqs"><code>void hal_disableIRQs ()</code></h3>
+<p>Disable all CPU interrupts. Might be invoked nested. But will always be followed by matching call to <code>hal_enableIRQs()</code>.</p>
+<h3 id="void-hal_enableirqs"><code>void hal_enableIRQs ()</code></h3>
+<p>Enable CPU interrupts. When invoked nested, only the outmost invocation actually must enable the interrupts.</p>
+<h3 id="void-hal_sleep"><code>void hal_sleep ()</code></h3>
+<p>Sleep until interrupt occurs. Preferably system components can be put in low-power mode before sleep, and be re-initialized after sleep. When using the Arduino reference implementation, this is a no-op; the LMIC returns to the caller, who is responsible for arranging to sleep.</p>
+<h3 id="s1_t-hal_getrssical"><code>s1_t hal_getRssiCal ()</code></h3>
+<p>Get the RSSI calibration for the radio, in dB. The radio driver adds this to the indicated RSSI to convert to absolute dB, for doing listen-before-talk computations. Not used unless listen-before-talk is configured for this region.</p>
+<h3 id="ostime_t-hal_setmodulepower-bool-val"><code>ostime_t hal_setModulePower (bool val)</code></h3>
+<p>Request that the module be powered up or down. If true, TCXO power should be activated, and any normally high-Z control lines should be activated. This function returns the number of ticks of delay that must be inserted before using the radio. If module-level power control is not implemented, or if the radio is already in the desired state, this routine can just return zero. Normally a delay of a few milliseconds is needed when turning power on, but no delay is needed if power is already on or if turning power off.</p>
+<h2 id="hal-reference-implementation-for-arduino">HAL Reference Implementation for Arduino</h2>
+<p>The Arduino LMIC library includes a reference implementation of the HAL for the Arduino. Please refer to README.md for information about the implementation.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>

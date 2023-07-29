@@ -1,0 +1,850 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../technical-specification/introduction/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.1, mkdocs-material-9.1.21">
+    
+    
+      
+        <title>Adding Regions - Arduino LoRaWAN MAC in C (LMIC)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.eebd395e.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#adding-a-new-region-to-arduino-lmic" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Arduino LoRaWAN MAC in C (LMIC)" class="md-header__button md-logo" aria-label="Arduino LoRaWAN MAC in C (LMIC)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Arduino LoRaWAN MAC in C (LMIC)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Adding Regions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mcci-catena/arduino-lmic" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mcci-catena/arduino-lmic
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Arduino LoRaWAN MAC in C (LMIC)" class="md-nav__button md-logo" aria-label="Arduino LoRaWAN MAC in C (LMIC)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Arduino LoRaWAN MAC in C (LMIC)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mcci-catena/arduino-lmic" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mcci-catena/arduino-lmic
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+          Overview
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        README
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Adding Regions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Adding Regions
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#planning" class="md-nav__link">
+    Planning
+  </a>
+  
+    <nav class="md-nav" aria-label="Planning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#determine-the-regionregion-category" class="md-nav__link">
+    Determine the region/region category
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-whether-the-region-is-already-listed-in-lmic_config_preconditionsh" class="md-nav__link">
+    Check whether the region is already listed in lmic_config_preconditions.h
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#make-the-appropriate-changes-in-lmic_config_preconditionsh" class="md-nav__link">
+    Make the appropriate changes in lmic_config_preconditions.h
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#document-your-region-in-readmemd" class="md-nav__link">
+    Document your region in README.md
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-the-definitions-for-your-region-in-lorabaseh" class="md-nav__link">
+    Add the definitions for your region in lorabase.h
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#edit-lmic_bandplanh" class="md-nav__link">
+    Edit lmic_bandplan.h
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-lmic_newregionc" class="md-nav__link">
+    Create lmic_newregion.c
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#general-discussion" class="md-nav__link">
+    General Discussion
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-the-region-to-the-arduino_lorawan-library" class="md-nav__link">
+    Adding the region to the Arduino_LoRaWAN library
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Technical Specification
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Technical Specification
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../technical-specification/introduction/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Programming Model and API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Programming Model and API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../technical-specification/programming-model-and-api/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../technical-specification/programming-model-and-api/run-time-functions/" class="md-nav__link">
+        Run-time Functions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../technical-specification/programming-model-and-api/application-callbacks/" class="md-nav__link">
+        Application callbacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../technical-specification/programming-model-and-api/the-lmic-struct/" class="md-nav__link">
+        The LMIC Struct
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../technical-specification/programming-model-and-api/api-functions/" class="md-nav__link">
+        API Functions
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../technical-specification/hal/" class="md-nav__link">
+        Hardware Abstraction Layer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../technical-specification/examples/" class="md-nav__link">
+        Examples
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../technical-specification/" class="md-nav__link">
+        Product Information
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../technical-specification/release-history/" class="md-nav__link">
+        Release History
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#planning" class="md-nav__link">
+    Planning
+  </a>
+  
+    <nav class="md-nav" aria-label="Planning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#determine-the-regionregion-category" class="md-nav__link">
+    Determine the region/region category
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-whether-the-region-is-already-listed-in-lmic_config_preconditionsh" class="md-nav__link">
+    Check whether the region is already listed in lmic_config_preconditions.h
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#make-the-appropriate-changes-in-lmic_config_preconditionsh" class="md-nav__link">
+    Make the appropriate changes in lmic_config_preconditions.h
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#document-your-region-in-readmemd" class="md-nav__link">
+    Document your region in README.md
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-the-definitions-for-your-region-in-lorabaseh" class="md-nav__link">
+    Add the definitions for your region in lorabase.h
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#edit-lmic_bandplanh" class="md-nav__link">
+    Edit lmic_bandplan.h
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-lmic_newregionc" class="md-nav__link">
+    Create lmic_newregion.c
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#general-discussion" class="md-nav__link">
+    General Discussion
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-the-region-to-the-arduino_lorawan-library" class="md-nav__link">
+    Adding the region to the Arduino_LoRaWAN library
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="adding-a-new-region-to-arduino-lmic">Adding a new region to Arduino LMIC</h1>
+<p>This variant of the Arduino LMIC code supports adding additional regions beyond the eu868 and us915 bands supported by the original IBM LMIC 1.6 code.</p>
+<p>This document outlines how to add a new region.</p>
+<h2 id="planning">Planning</h2>
+<h3 id="determine-the-regionregion-category">Determine the region/region category</h3>
+<p>Compare the target region (in the LoRaWAN regional specification) to the EU868 and US915 regions. There are three possibilities.</p>
+<ol>
+<li>
+<p>The region is like the EU region. There are a limited number of channels (up to 8), and only a small number of channels are used for OTAA join operations. The response masks refer to individual channels, and the JOIN-response can send frequencies of specific channels to be added.</p>
+</li>
+<li>
+<p>The region is like the US region. There are many channels (the US has 64) with fixed frequencies, and the channel masks refer to subsets of the fixed channels.</p>
+</li>
+<li>
+<p>The region is not really like either the EU or US. At the moment, it seems that CN470-510MHz (section 2.6 of LoRaWAN Regional Parameters spec V1.0.2rB) falls into this category.</p>
+</li>
+</ol>
+<p>Band plans in categories (1) and (2) are easily supported. Band plans in category (3) are not supported by the current code.</p>
+<h3 id="check-whether-the-region-is-already-listed-in-lmic_config_preconditionsh">Check whether the region is already listed in <code>lmic_config_preconditions.h</code></h3>
+<p>Check <code>src/lmic/lmic_config_preconditions.h</code> and scan the <code>LMIC_REGION_...</code> definitions. The numeric values are assigned based on the subchapter in section 2 of the LoRaWAN 1.0.2 Regional Parameters document. If your symbol is already there, then the first part of adaptation has already been done. There will already be a corresponding <code>CFG_...</code> symbol. But if your region isn't supported, you'll need to add it here.</p>
+<ul>
+<li><code>LMIC_REGION_myregion</code> must be a distinct integer, and must be less than 32 (so as to fit into a bitmask)</li>
+</ul>
+<h2 id="make-the-appropriate-changes-in-lmic_config_preconditionsh">Make the appropriate changes in <code>lmic_config_preconditions.h</code></h2>
+<ul>
+<li><code>LMIC_REGION_SUPPORTED</code> is a bit mask of all regions supported by the code. Your new region must appear in this list.</li>
+<li><code>CFG_LMIC_REGION_MASK</code> is a bit mask that, when expanded, returns a bitmask for each defined <code>CFG_...</code> variable. You must add your <code>CFG_myregion</code> symbol to this list.</li>
+<li><code>CFG_region</code> evaluates to the <code>LMIC_REGION_...</code> value for the selected region (as long as only one region is selected). The header files check for this, so you don't have to.</li>
+<li><code>CFG_LMIC_EU_like_MASK</code> is a bitmask of regions that are EU-like, and <code>CFG_LMIC_US_like_MASK</code> is a bitmask of regions that are US-like. Add your region to the appropriate one of these two variables.</li>
+</ul>
+<h2 id="document-your-region-in-readmemd">Document your region in <code>README.md</code></h2>
+<p>You'll see where the regions are listed. Add yours.</p>
+<h2 id="add-the-definitions-for-your-region-in-lorabaseh">Add the definitions for your region in <code>lorabase.h</code></h2>
+<ul>
+<li>If your region is EU like, copy the EU block. Document any duty-cycle limitations.</li>
+<li>if your region is US like, copy the US block.</li>
+<li>As appropriate, copy <code>lorabase_eu868.h</code> or <code>lorabase_us915.h</code> to make your own <code>lorabase_<em>newregion</em>.h</code>. Fill in the symbols.</li>
+</ul>
+<p>At time of writing, you need to duplicate some code to copy some settings from <code>lorabase_eu868.h</code> or <code>lorabase_us915.h</code> to the new file; and you need to put some region-specific knowledge into the <code>lorabase.h</code> header file. The long-term direction is to put all the regional knowledge into the region-specific header, and then the central code will just copy. The architectural impulse is that we'll want to be able to reuse the regional header files in other contexts. On the other hand, because it's error prone, we don't want to <code>#include</code> files that aren't being used; otherwise you could accidentally use EU parameters in US code, etc.</p>
+<ul>
+<li>Now's a good time to test-compile and clean out errors introduced. Make sure you set the region to your new target region. You'll have problems compiling, but they should look like this:</li>
+</ul>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="go">lmic.c:29: In file included from</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">lmic_bandplan.h: 52:3: error: #error &quot;LMICbandplan_maxFrameLen() not defined by bandplan&quot;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">    # </span>error<span class="w"> </span><span class="s2">&quot;LMICbandplan_maxFrameLen() not defined by bandplan&quot;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">lmic_bandplan.h: 56:3: error: #error &quot;pow2dBm() not defined by bandplan&quot;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="gp">    # </span>error<span class="w"> </span><span class="s2">&quot;pow2dBm() not defined by bandplan&quot;</span>
+</span></code></pre></div>
+<ul>
+<li>
+<p>If using an MCCI BSP, you might want to edit your local copy of <code>boards.txt</code> to add the new region.</p>
+</li>
+<li>
+<p>If using an MCCI BSP, you should definitely edit the template files to add the new region to the list.</p>
+</li>
+<li>
+<p>Modify the <code>.travis.yml</code> file to test the new region.</p>
+</li>
+</ul>
+<h2 id="edit-lmic_bandplanh">Edit <code>lmic_bandplan.h</code></h2>
+<p>The next step is to add the region-specific interfaces for your region.</p>
+<p>Do this by editing <code>lmic_bandplan.h</code> and adding the appropriate call to a (new) region-specific file <code>lmic_bandplan_myregion.h</code>, where "myregion" is the abbreviation for your region.</p>
+<p>Then, if your region is eu868-like, copy <code>lmic_bandplan_eu868.h</code> to create your new region-specific header file; otherwise copy <code>lmic_bandplan_us915.h</code>.</p>
+<p>Edit the file.</p>
+<p>Try to compile again; you should now get link errors related to your new band-plan, like this:</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">c:\tmp\buildfolder\libraries\arduino-lmic\lmic\lmic.c.o: In function `lowerDR&#39;:</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="go">C:\Users\tmm\Documents\Arduino\libraries\arduino-lmic\src\lmic/lorabase.h:667: undefined reference to `constant_table__DR2RPS_CRC&#39;</span>
+</span></code></pre></div>
+<h2 id="create-lmic_newregionc">Create <code>lmic_<em>newregion</em>.c</code></h2>
+<p>Once again, you will start by copying either <code>lmic_eu868.c</code> or <code>lmic_us915.c</code> to create your new file. Then touch it up as necessary.</p>
+<h2 id="general-discussion">General Discussion</h2>
+<ul>
+<li>
+<p>You'll find it easier to do the test compiles using the example scripts in this directory, rather than trying to get all the Catena framework going too. On the other hand, working with the Catena framework will expose more problems.</p>
+</li>
+<li>
+<p>Don't forget to check and update the examples.</p>
+</li>
+<li>
+<p>You will also need to update the <code>boards.template</code> file for MCCI BSPs, in order to get the region to show up in the Arduino IDE menu.</p>
+</li>
+<li>
+<p>You will need to update the <a href="https://github.com/mcci-catena/arduino-lorawan"><code>arduino-lorawan</code></a> library to include support for the new region. (See <a href="#adding-the-region-to-the-arduino_lorawan-library">below</a> for instructions.)</p>
+</li>
+<li>
+<p>Please increase the version of <code>arduino-lmic</code> (symbol <code>ARDUINO_LMIC_VERSION</code> in <code>src/lmic/lmic.h</code>), and change <code>arduino-lorawan</code>'s <code>Arduino_LoRaWAN_lmic.h</code> to check for at least that newer version.</p>
+</li>
+<li>
+<p>Please also increase the version of the <code>arduino-lorawan</code> library (symbol <code>ARDUINO_LORAWAN_VERSION</code>).</p>
+</li>
+</ul>
+<h2 id="adding-the-region-to-the-arduino_lorawan-library">Adding the region to the Arduino_LoRaWAN library</h2>
+<p>In <code>Arduino_LoRaWAN_ttn.h</code>:</p>
+<ul>
+<li>Add a new class with name <code>Arduino_LoRaWAN_ttn_myregion</code>, copied either from the <code>Arduino_LoRaWAN_ttn_eu868</code> class or the <code>Arduino_LoRaWAN_ttn_us915</code> class.</li>
+<li>Extend the list of <code>#if defined(CFG_eu868)</code> etc. to define <code>Arduino_LoRaWAN_REGION_TAG</code> to the suffix of your new class if <code>CFG_myregion</code> is defined.</li>
+</ul>
+<p>Then copy and edit either <code>ttn_eu868_netbegin.cpp</code>/<code>ttn_eu868_netjoin.cpp</code> or <code>ttn_us915_netbegin.cpp</code>/<code>ttn_us915_netjoin.cpp</code> to make your own file(s) for the key functions.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>
